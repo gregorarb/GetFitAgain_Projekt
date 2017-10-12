@@ -79,7 +79,7 @@ function toArray($result){
 
 //      echo "ID: " . $row["PersonID"]. "<br>Prename: " . $row["prename"]. " <br>Surname:" . $row["surname"]. "<br>Town: " . $row["Town"] ."<br>Street: " . $row["street"] ."<br><br>";
 
-      $alldata[$row["PersonID"]] = $row;
+      $alldata[] = $row;
     }
   }
 
