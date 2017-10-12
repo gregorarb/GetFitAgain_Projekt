@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -23,8 +22,7 @@ $app->get('/hello/{name}', function (Request $request, Response $response) {
 
     return $response;
 });
-//PERSON
-//Get * from Person
+//Gets all Persons
 $app->get('/person', function (Request $request, Response $response) {
     getAllPersons();
 });
@@ -51,15 +49,13 @@ $app->post('/person', function (Request $request, Response $response) {
     }
 
     createPerson($prename, $surname, $birthdate, $street, $postcode, $town, $phonenumber, $email, $sex);
-    //echo "($prename, $surname, $birthdate, $street, $postcode, $town, $phonenumber, $email, $sex)";
-    //echo "secondtest";
 });
 //Delete Person
 $app->delete('/person/{ID}', function (Request $request, Response $response) {
     include_once('Table/person.php');
     $ID = $request->getAttribute('ID');
-    //echo "Delete Person with PersonID($ID)";
     deleteperson($ID);
 });
+//Update Person
 //------------------------------------------------------------------------------
 $app->run();
