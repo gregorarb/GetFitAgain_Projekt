@@ -99,40 +99,37 @@ INSERT INTO Person (prename,surname,birthdate,street,postcode,Town,Phonenumber,E
 INSERT INTO Person (prename,surname,birthdate,street,postcode,Town,Phonenumber,Email,sex) VALUES ("Fitzgerald","Love","1996-05-05","P.O. Box 203, 4133 Eu Rd.","6402","Heist-op-den-Berg","06643710327","dolor.nonummy.ac@dolor.org","m");
 INSERT INTO Person (prename,surname,birthdate,street,postcode,Town,Phonenumber,Email,sex) VALUES ("Hayfa","Dale","1999-03-27","Ap #569-6430 Tincidunt. Rd.","5411","Pont-de-Loup","06646398354","placerat@egetmollis.net","m");
 INSERT INTO Person (prename,surname,birthdate,street,postcode,Town,Phonenumber,Email,sex) VALUES ("Cody","Travis","1989-07-11","345-6481 Dictum. Av.","5256","Bridlington","06641649172","egestas.hendrerit@dignissim.com","m");
-/*
--- Testdaten Passwort --> hash für passme
-INSERT INTO therapist (PersonID,Username,Password) VALUES (1,"Jana D. Fowler","ff069ccecc4780f9f524892924434b355e49a799");
-INSERT INTO therapist (PersonID,Username,Password) VALUES (2,"Tatyana V. Moss","ff069ccecc4780f9f524892924434b355e49a799");
-INSERT INTO therapist (PersonID,Username,Password) VALUES (3,"Naomi B. Bowman","ff069ccecc4780f9f524892924434b355e49a799");
-INSERT INTO therapist (PersonID,Username,Password) VALUES (4,"Mannix V. Morgan","ff069ccecc4780f9f524892924434b355e49a799");
-INSERT INTO therapist (PersonID,Username,Password) VALUES (5,"Daria M. Chaney","ff069ccecc4780f9f524892924434b355e49a799");
 
+-- Therapist Testdaten
+INSERT INTO therapist (PersonID,Username,Password) VALUES (1,"Aaron","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (2,"Quinlan","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (3,"Melvin","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (4,"Tucker","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (5,"Adam","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (6,"Upton","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (7,"Flynn","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (8,"Robert","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (9,"Zeph","ff069ccecc4780f9f524892924434b355e49a799");
+INSERT INTO therapist (PersonID,Username,Password) VALUES (10,"Wylie","ff069ccecc4780f9f524892924434b355e49a799");
 
 -- Testdaten für Doktoren
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (6,"Allgemeinmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (7,"Allgemeinmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (8,"Anästhologie");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (9,"Anästhologie");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (10,"Anatomie");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (11,"Anatomie");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (12,"Arbeitsmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (13,"Arbeitsmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (14,"Arbeitsmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (15,"Arbeitsmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (16,"Allistair J. Moss");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (17,"Allgemeinmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (18,"Allgemeinmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (19,"Allgemeinmedizin");
-INSERT INTO doctor (PersonID,areaofexpertise) VALUES (20,"Allgemeinmedizin");
-
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (11,"Allgemeinmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (12,"Allgemeinmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (13,"Anästhologie");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (14,"Anästhologie");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (15,"Anatomie");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (16,"Anatomie");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (18,"Arbeitsmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (19,"Arbeitsmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (20,"Arbeitsmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (21,"Arbeitsmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (22,"Allistair J. Moss");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (23,"Allgemeinmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (24,"Allgemeinmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (25,"Allgemeinmedizin");
+INSERT INTO doctor (PersonID,areaofexpertise) VALUES (26,"Allgemeinmedizin");
 
 -- Testdaten für Customer
-INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (5,1,21,"Gebietskrankenkasse","9062122857","feugiat. Sed nec metus");
-INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (5,1,22,"Gebietskrankenkasse","5303051929","lacus. Mauris non dui");
-INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (5,1,23,"Gebietskrankenkasse","0399600285","lectus pede, ultrices a,");
-INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (4,1,24,"Gebietskrankenkasse","8887992198","lacus. Quisque purus sapien,");
-INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (4,1,25,"Gebietskrankenkasse","1965551700","Mauris nulla. Integer urna.");
-INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (4,1,26,"Gebietskrankenkasse","7355085005","fringilla cursus purus. Nullam");
 INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (4,1,27,"Gebietskrankenkasse","7911326368","Etiam laoreet, libero et");
 INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (4,1,28,"Gebietskrankenkasse","9257481770","ipsum. Suspendisse non leo.");
 INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (4,1,29,"Gebietskrankenkasse","6112299620","malesuada fringilla est. Mauris");
@@ -207,4 +204,3 @@ INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumb
 INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (1,5,98,"Gebietskrankenkasse","2309417304","lacus. Cras interdum. Nunc");
 INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (2,5,99,"Gebietskrankenkasse","1516101878","magna. Nam ligula elit,");
 INSERT INTO customer (TherapistID,DoctorID,PersonID,Insurance,SocialSecurityNumber,Diagnose) VALUES (1,5,100,"Gebietskrankenkasse","9574359256","semper cursus. Integer mollis.");
-*/
