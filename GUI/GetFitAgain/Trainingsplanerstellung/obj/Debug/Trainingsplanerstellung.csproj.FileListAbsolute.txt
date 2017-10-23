@@ -1,0 +1,17 @@
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\bin\Debug\Trainingsplanerstellung.exe.config
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\bin\Debug\Trainingsplanerstellung.exe
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\bin\Debug\Trainingsplanerstellung.pdb
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\MainWindow.g.cs
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\App.g.cs
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung_MarkupCompile.cache
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung_MarkupCompile.lref
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\MainWindow.baml
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung.g.resources
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung.Properties.Resources.resources
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung.csproj.GenerateResource.Cache
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung.csproj.CoreCompileInputs.cache
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung.exe
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung.pdb
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\obj\Debug\Trainingsplanerstellung.csprojResolveAssemblyReference.cache
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\bin\Debug\MySql.Data.dll
+D:\GFA_2017_18\GetFitAgain\Trainingsplanerstellung\bin\Debug\MySql.Data.xml
