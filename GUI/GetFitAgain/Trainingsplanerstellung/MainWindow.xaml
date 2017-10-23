@@ -3,18 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:Trainingsplanerstellung"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="Hauptfenster" WindowState="Maximized" Icon="Images/gfa_icon_2k3_icon.ico">
     <!-- DataContext="{Binding RelativeSource={RelativeSource Self}}" -->
-    <Grid>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Name="Tabs" Width="1*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TabControl TabStripPlacement="Left" BorderBrush="Gainsboro" HorizontalAlignment="Stretch" Grid.IsSharedSizeScope="True" Grid.Column="0">
+        <TabControl TabStripPlacement="Left" BorderBrush="Gainsboro" Grid.IsSharedSizeScope="True" Grid.Column="0">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -44,8 +46,8 @@
                 <Grid Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.04*"/>
-                        <RowDefinition Height="0.86*"/>
-                        <RowDefinition Height="0.10*"/>
+                        <RowDefinition Height="0.90*"/>
+                        <RowDefinition Height="0.06*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.33*"/>
@@ -53,10 +55,17 @@
                         <ColumnDefinition Width="0.33*"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="KundeSuchen_TextBox" Text="Suchtext eingeben" Grid.Row="0" Grid.ColumnSpan="3"/>
-                    <DataGrid x:Name="Kundentabelle_DataGrid" ItemsSource="{Binding Path=Customers_List}" Grid.Row="1" Grid.ColumnSpan="3">
+                    <DataGrid x:Name="Kundentabelle_DataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Path=Persons_List}" Grid.Row="1" Grid.ColumnSpan="3">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding}" 
-                                Foreground="Black" Width="60" Header="Test" IsReadOnly="false" />
+                            <DataGridTextColumn Header="Nachname" Width="1*" Binding="{Binding Surname}" />
+                            <DataGridTextColumn Header="Vorname" Width="1*" Binding="{Binding Prename}" />
+                            <DataGridTextColumn Header="Geburtsdatum" Width="1.2*" Binding="{Binding Birthdate, StringFormat={}{0:dd.MM.yyyy}}" />
+                            <DataGridTextColumn Header="Straße" Width="0.7*" Binding="{Binding Street}" />
+                            <DataGridTextColumn Header="PLZ" Width="0.5*" Binding="{Binding Postcode}" />
+                            <DataGridTextColumn Header="Stadt" Width="0.7*" Binding="{Binding Town}" />
+                            <DataGridTextColumn Header="Telefonnummer" Width="1.3*" Binding="{Binding Phonenumber}" />
+                            <DataGridTextColumn Header="Email" Width="1.4*" Binding="{Binding Email}" />
+                            <DataGridTextColumn Header="Geschlecht" Width="0.9*" Binding="{Binding Sex}" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button x:Name="KundeHinzufuegen_Button" Grid.Row="2" Grid.Column="0" Content="Kunde hinzufügen"/>
@@ -80,8 +89,8 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.1*"/>
-                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.05*"/>
+                            <RowDefinition Height="0.38*"/>
                             <RowDefinition Height="0.04*"/>
                             <RowDefinition Height="0.04*"/>
                             <RowDefinition Height="0.30*"/>
@@ -93,15 +102,27 @@
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="0.5*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="TrainingsplanName_TextBox" Text="Trainingsplan1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Background="#FFF9F9F9"/>
-                        <TextBox x:Name="KundenName_TextBox" Text="Kunde1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Background="#FFF9F9F9"/>
-                        <ListView x:Name="Uebungen_ListView" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ExercisesInPlan_List}" Background="#FFF9F9F9">
+                        <TextBox x:Name="TrainingsplanName_TextBox" Text="Geben Sie einen Trainingsplannamen ein..." VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Background="#FFF9F9F9"/>
+                        <ComboBox x:Name="KundenName_ComboBox" ItemsSource="{Binding Path=Persons_List}"
+                            Text="Wählen Sie einen Kunden aus..." IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False"
+                            Grid.Row="0" Grid.Column="1" Background="#FFF9F9F9">
+                            
+                        </ComboBox>
+                        <ListView x:Name="Uebungen_ListView" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" Background="#FFF9F9F9">
 
                         </ListView>
                         <TextBox x:Name="AnzahlWiederholungen_TextBox" IsReadOnly="True" Text="Anzahl an Wiederholungen:" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="0" Background="#FFF9F9F9"/>
-                        <TextBox x:Name="AnzahlWiederholungenEingabe_TextBox" VerticalAlignment="Stretch" PreviewTextInput="NumberValidationAnzahl_TextBox" Grid.Row="2" Grid.Column="1" Background="#FFF9F9F9"/>
+                        <!--xctk:ButtonSpinner Margin="10" 
+                             Width="150" 
+                             HorizontalAlignment="Left"
+                             AllowSpin="{Binding IsChecked, ElementName=_allowSpin}"
+                             ShowButtonSpinner="{Binding IsChecked, ElementName=_showButtonSpinner}"
+                             Spin="ButtonSpinner_Spin">
+                            <TextBox Text="John Smith" IsReadOnly="True" BorderThickness="0" HorizontalContentAlignment="Right" />
+                        </ButtonSpinner-->
+                        <TextBox x:Name="AnzahlWiederholungenEingabe_TextBox" TextWrapping="Wrap" VerticalAlignment="Stretch" PreviewTextInput="NumberValidationAnzahl_TextBox" Grid.Row="2" Grid.Column="1" Background="#FFF9F9F9"/>
                         <TextBox x:Name="Dauer_TextBox" IsReadOnly="True" Text="Dauer (Minuten:Sekunden oder nur Sekunden):" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="0" Background="#FFF9F9F9"/>
-                        <TextBox x:Name="DauerEingabe_TextBox" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1" PreviewTextInput="NumberValidationDauer_TextBox" Background="#FFF9F9F9"/>
+                        <TextBox x:Name="DauerEingabe_TextBox" TextWrapping="Wrap" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1" PreviewTextInput="NumberValidationDauer_TextBox" Background="#FFF9F9F9"/>
                         <Image x:Name="UebungName_Image" Source="Images/logo_ronnie.png" VerticalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2"/>
                         <TextBox x:Name="Kurzbeschreibung_TextBox" TextWrapping="Wrap" Text="Kurzbeschreibung der Übung" VerticalAlignment="Stretch" Grid.Row="5" Grid.ColumnSpan="2" Background="#FFF9F9F9"/>
                         <TextBox x:Name="Ausgewaehlt_TextBox" IsReadOnly="True" Text="Ausgewählte Übung:" VerticalAlignment="Stretch" Grid.Row="6" Grid.Column="0" Background="#FFF9F9F9"/>

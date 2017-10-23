@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace Trainingsplanerstellung
 {
@@ -25,49 +27,65 @@ namespace Trainingsplanerstellung
     public partial class MainWindow : Window
     {
         public ObservableCollection<string> ExercisesInPlan_List { get; set; }
-        public ObservableCollection<TestPerson> Customers_List { get; set; }
+        public ObservableCollection<Person> Customers_List { get; set; }
+        public ObservableCollection<Person> Persons_List { get; set; }
 
         public MainWindow()
         {
             DataContext = this;
-            //ConnectToDB_Local();
+
             ExercisesInPlan_List = new ObservableCollection<string>();
-            Customers_List = new ObservableCollection<TestPerson>();
+            Customers_List = new ObservableCollection<Person>();
+            Persons_List = new ObservableCollection<Person>();
 
-            for(int i=0; i<10; i++)
-            {
-                TestPerson tp = new TestPerson("Max"+i, "Mustermann", 3121, "31.02.1904", "Eichenweg", "4332", "Au an der Donau", "203921301231"+i%3, "email@email.at", "männlich", "latin", "Allianz");
-
-                Customers_List.Add(tp);
-                Console.WriteLine(tp.Vorname);
-            }
+            FetchTable("person", "http://localhost/api/src");
 
             InitializeComponent();
         }
 
-        private void ConnectToDB_Local()
+        /// <summary>
+        /// Holt alle Einträge eines Tables der Datenbank über ein Webservice heraus
+        /// </summary>
+        /// <param name="table">Table, aus dem alle Einträge geholt werden sollen</param>
+        /// <param name="baseUrl">Base-URL des Webservice, hier liegt die index.php Datei</param>
+        public void FetchTable(string table, string baseUrl)
         {
-            MySqlConnection conn;
-            string myConnectionString;
+            var client = new RestClient();
+            // URL des Ordners mit der index.php, über die man mit REST Tabellen aufrufen kann
+            client.BaseUrl = new Uri("http://localhost/api/src");
 
-            myConnectionString = "server=localhost;uid=getfitagain_user;" +
-                "pwd=GetFitAgain34;database=getfitagain;";
+            var request = new RestRequest();
+            // {BaseUrl}/{Resource}, zB: http://localhost/api/src/person gibt alle Personen zurück
+            request.Resource = table;
 
-            try
-            {
-                conn = new MySqlConnection();
-                conn.ConnectionString = myConnectionString;
-                conn.Open();
+            IRestResponse response = client.Execute(request);
+            Console.WriteLine(response.Content);
+            if (response.Content.Length != 0) { 
+                string[] split = response.Content.Split('[');
+                string[] jsonSplit = split[1].Split(']');
+                string jsonStr = jsonSplit[0];
 
-                Console.WriteLine("Connection successful");
+                // Tilde kommt nie vor, notwendig fürs splitten 
+                // (an Beistrich splitten ist schwierig, da sie öfters vorkommen)
+                jsonStr = jsonStr.Replace("},", "}~");
 
-                // Execute a command
-                MySqlCommand myCommand = conn.CreateCommand();
-                myCommand.CommandText = "select pic from picture";
-            }
-            catch (MySqlException ex)
-            {
+                string[] allItemsOfTable = jsonStr.Split('~');
 
+                foreach (var item in allItemsOfTable)
+                {
+                    switch(table) {
+                        case "person":
+                            {
+                                Persons_List.Add(JsonConvert.DeserializeObject<Person>(item));
+                                break;
+                            }
+                        case "customer":
+                            {
+                                // get all persons
+                                break;
+                            }
+                    }
+                }
             }
         }
 
@@ -79,7 +97,7 @@ namespace Trainingsplanerstellung
 
         private void NumberValidationDauer_TextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9:]+");
+            Regex regex = new Regex(@"[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
