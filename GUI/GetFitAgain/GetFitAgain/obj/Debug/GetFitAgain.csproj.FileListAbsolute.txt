@@ -1,0 +1,15 @@
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\bin\Debug\GetFitAgain.exe.config
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\bin\Debug\GetFitAgain.exe
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\bin\Debug\GetFitAgain.pdb
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain.csprojResolveAssemblyReference.cache
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\MainWindow.g.cs
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\App.g.cs
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain_MarkupCompile.cache
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain_MarkupCompile.lref
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\MainWindow.baml
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain.g.resources
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain.Properties.Resources.resources
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain.csproj.GenerateResource.Cache
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain.csproj.CoreCompileInputs.cache
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain.exe
+D:\GFA_2017_18\GetFitAgain\GetFitAgain\obj\Debug\GetFitAgain.pdb
