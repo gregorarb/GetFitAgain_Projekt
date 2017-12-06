@@ -18,7 +18,7 @@ include_once('Table/doctor.php');
 include_once('Table/customer.php');
 //Difficulties
 include_once('Table/difficulty.php');
-//Tasks
+//Task
 include_once('Table/task.php');
 //Category
 include_once('Table/category.php');
@@ -639,18 +639,27 @@ $app->delete('/trainingplan/{ID}', function (Request $request, Response $respons
 //------------------------------------------------------------------------------
 //Get all
 $app->get('/tasks', function (Request $request, Response $response) {
-    getAllTaskss();
+    getAllTasksAssociationTable();
 });
 
-//Get tasks with ID
+//Get tasks with ID of the Trainingplan
 $app->get('/tasks/{ID}', function (Request $request, Response $response) {
     $ID = $request->getAttribute('ID');
-    getThisTasks($ID);
+    getTasksOfTrainingsplan($ID);
+});
+
+//Get the item identified with TrainingplanID and taskID
+$app->get('/tasks/{planID}/{taskID}', function (Request $request, Response $response) {
+    $planID = $request->getAttribute('planID');
+    $taskID = $request->getAttribute('taskID');
+
+    getOneTaskOfAssociationtable($planID, $taskID);
 });
 
 //Create new Item of tasks
 $app->post('/tasks', function (Request $request, Response $response) {
-    if(isset($_POST["TaskID"]) && isset($_POST["Repeats"]) && isset($_POST["Sets"]) && isset($_POST["Duration"])){
+    if(isset($_POST["TrainingplanID"]) && isset($_POST["TaskID"]) && isset($_POST["Repeats"]) && isset($_POST["Sets"]) && isset($_POST["Duration"])){
+      $TrainingplanID = $_POST["TrainingplanID"];
       $TaskID = $_POST["TaskID"];
       $Repeats = $_POST["Repeats"];
       $Sets = $_POST["Sets"];
@@ -661,32 +670,33 @@ $app->post('/tasks', function (Request $request, Response $response) {
       deliver_response(200, 1, "Not enough information");
     }
 
-    createTasks($TaskID, $Repeats, $Sets, $Duration);
+    createTasks($TrainingplanID, $TaskID, $Repeats, $Sets, $Duration);
 });
 
 //Update tasks
-$app->put('/tasks/{ID}', function (Request $request, Response $response){
+$app->put('/tasks/{TrainingplanID}/{taskID}', function (Request $request, Response $response){
 
-if(isset($request->getParsedBody()['TaskID']) && isset($request->getParsedBody()['Repeats']) && isset($request->getParsedBody()['Sets']) && isset($request->getParsedBody()['Duration'])){
-    $ID = $request->getAttribute('ID');
-      $TaskID = $request->getParsedBody()['TaskID'];
-      $Repeats = $request->getParsedBody()['Repeats'];
-      $Sets = $request->getParsedBody()['Sets'];
-      $Duration = $request->getParsedBody()['Duration'];
+if(isset($request->getParsedBody()['Repeats']) && isset($request->getParsedBody()['Sets']) && isset($request->getParsedBody()['Duration'])){
+    $TrainingplanID = $request->getAttribute('TrainingplanID');
+    $taskID = $request->getAttribute('taskID');
+    $Repeats = $request->getParsedBody()['Repeats'];
+    $Sets = $request->getParsedBody()['Sets'];
+    $Duration = $request->getParsedBody()['Duration'];
 
   }
   else{
     deliver_response(200, 1, "Not enough information");
   }
 
-  updateTasks($ID, $TaskID, $Repeats, $Sets, $Duration);
+  updateTasks($TrainingplanID, $taskID, $Repeats, $Sets, $Duration);
 
 });
 
 //Delete Tasks
-$app->delete('/tasks/{ID}', function (Request $request, Response $response) {
-    $ID = $request->getAttribute('ID');
-    deleteTasks($ID);
+$app->delete('/tasks/{TrainingplanID}/{taskID}', function (Request $request, Response $response) {
+    $TrainingplanID = $request->getAttribute('TrainingplanID');
+    $taskID = $request->getAttribute('taskID');
+    deleteTasks($TrainingplanID, $taskID);
 });
 //------------------------------------------------------------------------------
 

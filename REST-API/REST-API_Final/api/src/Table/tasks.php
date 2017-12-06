@@ -1,6 +1,6 @@
 <?php
 //Gibt alle Items von tasks zurück
-function getAllTaskss(){
+function getAllTasksAssociationTable(){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
 
   //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
@@ -23,15 +23,38 @@ function getAllTaskss(){
 }
 
 
-//Gibt 1 Item von tasks zurück (gesucht mit der ID)
-function getThisTasks($ID){
+//Gibt alle Übungen von einem Trainingsplan zurück
+function getTasksOfTrainingsplan($ID){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
 
   //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "SELECT * FROM tasks where TaskID = $ID";
+  $sql = "SELECT * FROM tasks where TrainingplanID = $ID";
+  $result = $conn->query($sql) or die("Datenbankverbindung nicht möglich");
+
+  include_once DOC_ROOT_PATH . "/othermethods.php";
+
+  $rows = toArray($result);
+
+  if($rows != null){
+    deliver_response(200, $rows, "data found");
+  }
+  else{
+    deliver_response(200, $rows, "No Data found");
+  }
+}
+
+//Gibt eine Übung zurück die mit TaskID und TrainingplanID identifiziert wird
+function getOneTaskOfAssociationtable($planID, $taskID){
+  define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
+
+  //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
+  $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
+  mysqli_set_charset($conn, "utf8");
+
+  $sql = "SELECT * FROM tasks where TrainingplanID = $planID && taskID = $taskID";
   $result = $conn->query($sql) or die("Datenbankverbindung nicht möglich");
 
   include_once DOC_ROOT_PATH . "/othermethods.php";
@@ -48,7 +71,7 @@ function getThisTasks($ID){
 
 
 //Erstellt ein Item der Tabelle tasks
-function createTasks($TaskID, $Repeats, $Sets, $Duration){
+function createTasks($TrainingplanID, $TaskID, $Repeats, $Sets, $Duration){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -56,8 +79,8 @@ function createTasks($TaskID, $Repeats, $Sets, $Duration){
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "INSERT INTO tasks(TaskID, Repeats, Sets, Duration)
-          VALUES ('$TaskID', '$Repeats', '$Sets', '$Duration')";
+  $sql = "INSERT INTO tasks(TrainingplanID, TaskID, Repeats, Sets, Duration)
+          VALUES ('$TrainingplanID', '$TaskID', '$Repeats', '$Sets', '$Duration')";
 
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data created successfully");
@@ -69,7 +92,7 @@ function createTasks($TaskID, $Repeats, $Sets, $Duration){
 
 
 //Updated ein Item der Tabelle tasks
-function updateTasks($ID ,$TaskID, $Repeats, $Sets, $Duration){
+function updateTasks($TrainingplanID ,$TaskID, $Repeats, $Sets, $Duration){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -77,7 +100,7 @@ function updateTasks($ID ,$TaskID, $Repeats, $Sets, $Duration){
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "UPDATE tasks SET TaskID='$TaskID', Repeats='$Repeats', Sets='$Sets', Duration='$Duration' WHERE TaskID='$ID'";
+  $sql = "UPDATE tasks SET Repeats='$Repeats', Sets='$Sets', Duration='$Duration' WHERE TrainingplanID='$TrainingplanID' && TaskID='$TaskID'";
 
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data updated successfully");
@@ -88,7 +111,7 @@ function updateTasks($ID ,$TaskID, $Repeats, $Sets, $Duration){
 }
 
 //Löscht ein Item aus der Tabelle tasks
-function deleteTasks($ID){
+function deleteTasks($TrainingplanID, $taskID){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -96,7 +119,7 @@ function deleteTasks($ID){
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "DELETE FROM tasks WHERE TaskID =$ID";
+  $sql = "DELETE FROM tasks WHERE trainingplanID = $TrainingplanID && TaskID = $taskID";
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data deleted successfully");
   }
