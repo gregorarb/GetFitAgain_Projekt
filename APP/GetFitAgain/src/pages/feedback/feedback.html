@@ -1,0 +1,46 @@
+
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Feedback</ion-title>
+    </ion-navbar>
+  </ion-header>
+  <!--
+  <ion-content>
+      <div class="row header">
+          <div class="col">Fragebogen</div>
+          <div class="col">Status</div>
+          <div class="col">Bearbeiten</div>
+        </div>
+        <div class="row" *ngFor="let item of items">
+          <div class="col">{{item.title}}</div>
+          <div class="col">{{item.title}}</div>
+          <div class="col"><button class="button">Add</button></div>
+        </div>
+  </ion-content>
+-->
+
+<ion-content>
+    <h3>Dein Feedback ist uns Wichtig!</h3>
+
+    <ion-list>
+      <ion-list-header>
+        Feedbackmöglichkeiten
+      </ion-list-header>
+      
+      <button ion-item *ngFor="let item of items">
+          <span item-left text-left>1</span>
+          <h2>{{item.title}}</h2>
+          <p [ngClass]='item.icon' item-end>{{item.icon}}</p>
+        
+          <!--
+        <Button ion-button item-end>
+            <ion-icon name='create'> Erstellen</ion-icon>
+        </Button>
+        -->
+      </button>
+      
+    </ion-list>
+</ion-content>
