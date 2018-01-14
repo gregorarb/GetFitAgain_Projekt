@@ -9,13 +9,15 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FeedbackPage } from '../pages/feedback/feedback';
+import { FeedbackquestionsPage } from '../pages/feedbackquestions/feedbackquestions';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    FeedbackPage
+    FeedbackPage,
+    FeedbackquestionsPage
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { FeedbackPage } from '../pages/feedback/feedback';
     MyApp,
     HomePage,
     ListPage,
-    FeedbackPage
+    FeedbackPage,
+    FeedbackquestionsPage
   ],
   providers: [
     StatusBar,

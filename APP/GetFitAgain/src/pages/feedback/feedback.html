@@ -30,8 +30,7 @@
         Feedbackmöglichkeiten
       </ion-list-header>
       
-      <button ion-item *ngFor="let item of items">
-          <span item-left text-left>1</span>
+      <button ion-item *ngFor="let item of items" (click)="openFeedbackQuestions()">
           <h2>{{item.title}}</h2>
           <p [ngClass]='item.icon' item-end>{{item.icon}}</p>
         
