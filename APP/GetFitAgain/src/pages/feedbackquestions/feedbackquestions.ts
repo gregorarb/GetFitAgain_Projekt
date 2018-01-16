@@ -18,6 +18,4 @@ export class FeedbackquestionsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  
-
 }
