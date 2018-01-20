@@ -1,5 +1,8 @@
 <?php
 header("Content-Type: text/html; charset=UTF-8");
+//------------------------------------------------------------------------------
+header('Access-Control-Allow-Origin: *');
+//------------------------------------------------------------------------------
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -35,10 +38,32 @@ include_once('Table/tasks.php');
 //pictures
 include_once('Table/pictures.php');
 
+//Diplomarbeitsfiles
+//Feedback
+include_once('Table/feedback.php');
+//Feedbackdonebyuser
+include_once('Table/feedbackdonebyuser.php');
+//question
+include_once('Table/question.php');
+//feedbackquestions
+include_once('Table/feedbackquestions.php');
+
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
 
 $app = new \Slim\App(["settings" => $config]);
+
+//------------------------------------------------------------------------------
+//$app = new \Slim\App;
+$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
+    $name = $args['name'];
+    $response->getBody()->write("Hello, $name");
+
+    return $response;
+});
+//------------------------------------------------------------------------------
+
+
 
 //REST-API für die Tabelle person
 //------------------------------------------------------------------------------
@@ -749,4 +774,174 @@ $app->delete('/pictures/{ID}', function (Request $request, Response $response) {
 });
 //------------------------------------------------------------------------------
 
+//REST-API für die Tabelle Feedback
+//------------------------------------------------------------------------------
+//Get all
+$app->get('/feedback', function (Request $request, Response $response) {
+    getAllFeedbacks();
+});
+
+//Get Feedback with ID
+$app->get('/feedback/{ID}', function (Request $request, Response $response) {
+    $ID = $request->getAttribute('ID');
+    getThisFeedback($ID);
+});
+
+//Create new Item of Feedback
+$app->post('/feedback', function (Request $request, Response $response) {
+    if(isset($_POST["name"])){
+      $name = $_POST["name"];
+
+    }
+    else{
+      deliver_response(200, 1, "Not enough information");
+    }
+
+    createFeedback($name);
+});
+
+//Update Feedback
+$app->put('/feedback/{ID}', function (Request $request, Response $response){
+
+if(isset($request->getParsedBody()['name'])){
+    $ID = $request->getAttribute('ID');
+      $name = $request->getParsedBody()['name'];
+
+  }
+  else{
+    deliver_response(200, 1, "Not enough information");
+  }
+
+  updateFeedback($ID, $name);
+
+});
+
+//Delete Feedback
+$app->delete('/feedback/{ID}', function (Request $request, Response $response) {
+    $ID = $request->getAttribute('ID');
+    deleteFeedback($ID);
+});
+//------------------------------------------------------------------------------
+
+//REST-API für die Tabelle feedbackdonebyuser
+//------------------------------------------------------------------------------
+//Get all
+$app->get('/feedbackdonebyuser', function (Request $request, Response $response) {
+    getAllFeedbackdonebyusers();
+});
+
+//Get feedbackdonebyuser with ID
+$app->get('/feedbackdonebyuser/{FeedbackID}/{CustomerID}', function (Request $request, Response $response) {
+    $FeedbackID = $request->getAttribute('FeedbackID');
+    $CustomerID = $request->getAttribute('CustomerID');
+
+    getFeedbackdonebyuserAssociationtable($FeedbackID, $CustomerID);
+});
+
+//Create new Item of feedbackdonebyuser
+$app->post('/feedbackdonebyuser', function (Request $request, Response $response) {
+    if(isset($_POST["FeedbackID"]) && isset($_POST["CustomerID"])){
+      $FeedbackID = $_POST["FeedbackID"];
+      $CustomerID = $_POST["CustomerID"];
+
+    }
+    else{
+      deliver_response(200, 1, "Not enough information");
+    }
+
+    createFeedbackdonebyuser($FeedbackID, $CustomerID);
+});
+
+//Update feedbackdonebyuser
+//Kein Update benötigt / möglich --> Wenn ein Datensatz einmal in der Datenbank ist dann ist das Feedback erledigt und es kann nicht wiederholt werden
+//Möglichkeit wäre aber den Datensatz zu löschen somit kann man die Befragung erneut durchführen
+
+//Delete Feedbackdonebyuser
+$app->delete('/feedbackdonebyuser/{FeedbackID}/{CustomerID}', function (Request $request, Response $response) {
+    $FeedbackID = $request->getAttribute('FeedbackID');
+    $CustomerID = $request->getAttribute('CustomerID');
+    deleteFeedbackdonebyuser($FeedbackID, $CustomerID);
+});
+//------------------------------------------------------------------------------
+//REST-API für die Tabelle question
+//------------------------------------------------------------------------------
+//Get all
+$app->get('/question', function (Request $request, Response $response) {
+    getAllQuestions();
+});
+
+//Get question with ID
+$app->get('/question/{ID}', function (Request $request, Response $response) {
+    $ID = $request->getAttribute('ID');
+    getThisQuestion($ID);
+});
+
+//Create new Item of question
+$app->post('/question', function (Request $request, Response $response) {
+    if(isset($_POST["questiontext"]) && isset($_POST["kindofquestion"])){
+      $questiontext = $_POST["questiontext"];
+      $kindofquestion = $_POST["kindofquestion"];
+
+    }
+    else{
+      deliver_response(200, 1, "Not enough information");
+    }
+
+    createQuestion($questiontext, $kindofquestion);
+});
+
+//Update question
+$app->put('/question/{ID}', function (Request $request, Response $response){
+
+if(isset($request->getParsedBody()['questiontext']) && isset($request->getParsedBody()['kindofquestion'])){
+    $ID = $request->getAttribute('ID');
+    $questiontext = $request->getParsedBody()['questiontext'];
+    $kindofquestion = $request->getParsedBody()['kindofquestion'];
+
+  }
+  else{
+    deliver_response(200, 1, "Not enough information");
+  }
+
+  updateQuestion($ID, $questiontext, $kindofquestion);
+
+});
+
+//Delete Question
+$app->delete('/question/{ID}', function (Request $request, Response $response) {
+    $ID = $request->getAttribute('ID');
+    deleteQuestion($ID);
+});
+//------------------------------------------------------------------------------
+//REST-API für die Tabelle feedbackquestions
+//------------------------------------------------------------------------------
+
+//Get feedbackquestions with ID
+$app->get('/feedbackquestions/{FeedbackID}', function (Request $request, Response $response) {
+    $ID = $request->getAttribute('FeedbackID');
+    getThisFeedbackquestions($ID);
+});
+
+//Create new Item of feedbackquestions
+$app->post('/feedbackquestions', function (Request $request, Response $response) {
+    if(isset($_POST["FeedbackID"]) && isset($_POST["QuestionID"])){
+      $FeedbackID = $_POST["FeedbackID"];
+      $QuestionID = $_POST["QuestionID"];
+    }
+    else{
+      deliver_response(200, 1, "Not enough information");
+    }
+
+    createFeedbackquestions($FeedbackID, $QuestionID);
+});
+
+//Kein Update
+
+//Delete Feedbackquestions
+$app->delete('/feedbackquestions/{FeedbackID}/{QuestionID}', function (Request $request, Response $response) {
+    $FeedbackID = $request->getAttribute('FeedbackID');
+    $QuestionID = $request->getAttribute('QuestionID');
+    deleteFeedbackquestions($FeedbackID, $QuestionID);
+});
+//------------------------------------------------------------------------------
 $app->run();

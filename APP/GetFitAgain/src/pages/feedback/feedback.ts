@@ -11,7 +11,7 @@ import { FeedbackquestionsPage } from '../feedbackquestions/feedbackquestions';
 })
 export class FeedbackPage {
   //Variablen
-  feedbacks: Array<{FeedbackID: number, name: string, done: string}>;
+  feedbacks: Array<{FeedbackID: number, name: string, done: string, donebool: boolean}>;
 
   //Konstruktor
   constructor(public navCtrl: NavController, public navParams: NavParams){//, private storage: Storage) {
@@ -47,13 +47,14 @@ export class FeedbackPage {
     
     for (var i = 0; i < arrayLength; i++) {
         var isitdone = "Unerledigt";
-        
+        var isitdonebool = null;
         //hat der user das feedback schon gemacht?
         for (var j = 0; j < arrayLength2; j++){
           //customerid --> lokales objekt später DB objekt
           if(customerid == myarray2[j].CustomerID){
             if(myarray2[j].FeedbackID == myarray[i].FeedbackID){
               isitdone = "Erledigt";
+              isitdonebool = false;
             }
             
           }
@@ -62,15 +63,18 @@ export class FeedbackPage {
         this.feedbacks.push({
           FeedbackID: myarray[i].FeedbackID,
           name: myarray[i].name,
-          done: isitdone
+          done: isitdone,
+          donebool: isitdonebool
         });
         
     }
   }
 
   //wenn ein item in der Liste ausgewählt wurde
-  openFeedbackQuestions(){
-    this.navCtrl.push(FeedbackquestionsPage);
+  openFeedbackQuestions($event, item){
+    this.navCtrl.push(FeedbackquestionsPage, {
+      item: item
+    });
     
   }
 }

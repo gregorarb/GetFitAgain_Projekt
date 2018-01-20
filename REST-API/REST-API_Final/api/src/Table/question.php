@@ -1,37 +1,13 @@
 <?php
-//Gibt alle Items von person zurück
-function getAllPersons(){
+//Gibt alle Items von question zurück
+function getAllQuestions(){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
 
   //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "SELECT * FROM person";
-  $result = $conn->query($sql) or die("Datenbankverbindung nicht möglich");
-
-  include_once "C:/xampp/htdocs/api/src/othermethods.php";
-
-  $rows = toArray($result);
-
-  if($rows != null){
-    deliver_response(200, $rows, "data found");
-  }
-  else{
-    deliver_response(200, $rows, "No Data found");
-  }
-}
-
-
-//Gibt 1 Item von person zurück (gesucht mit der ID)
-function getThisPerson($ID){
-  define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
-
-  //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
-  $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
-  mysqli_set_charset($conn, "utf8");
-
-  $sql = "SELECT * FROM person where PersonID = $ID";
+  $sql = "SELECT * FROM question";
   $result = $conn->query($sql) or die("Datenbankverbindung nicht möglich");
 
   include_once DOC_ROOT_PATH . "/othermethods.php";
@@ -47,8 +23,32 @@ function getThisPerson($ID){
 }
 
 
-//Erstellt ein Item der Tabelle person
-function createPerson($prename, $surname, $birthdate, $street, $postcode, $Town, $Phonenumber, $Email, $sex){
+//Gibt 1 Item von question zurück (gesucht mit der ID)
+function getThisQuestion($ID){
+  define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
+
+  //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
+  $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
+  mysqli_set_charset($conn, "utf8");
+
+  $sql = "SELECT * FROM question where QuestionID = $ID";
+  $result = $conn->query($sql) or die("Datenbankverbindung nicht möglich");
+
+  include_once DOC_ROOT_PATH . "/othermethods.php";
+
+  $rows = toArray($result);
+
+  if($rows != null){
+    deliver_response(200, $rows, "data found");
+  }
+  else{
+    deliver_response(200, $rows, "No Data found");
+  }
+}
+
+
+//Erstellt ein Item der Tabelle question
+function createQuestion($questiontext, $kindofquestion){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -56,8 +56,8 @@ function createPerson($prename, $surname, $birthdate, $street, $postcode, $Town,
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "INSERT INTO person(prename, surname, birthdate, street, postcode, Town, Phonenumber, Email, sex)
-          VALUES ('$prename', '$surname', '$birthdate', '$street', '$postcode', '$Town', '$Phonenumber', '$Email', '$sex')";
+  $sql = "INSERT INTO question(questiontext, kindofquestion)
+          VALUES ('$questiontext', '$kindofquestion')";
 
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data created successfully");
@@ -68,8 +68,8 @@ function createPerson($prename, $surname, $birthdate, $street, $postcode, $Town,
 }
 
 
-//Updated ein Item der Tabelle person
-function updatePerson($ID ,$prename, $surname, $birthdate, $street, $postcode, $Town, $Phonenumber, $Email, $sex){
+//Updated ein Item der Tabelle question
+function updateQuestion($ID ,$questiontext, $kindofquestion){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -77,7 +77,7 @@ function updatePerson($ID ,$prename, $surname, $birthdate, $street, $postcode, $
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "UPDATE person SET prename='$prename', surname='$surname', birthdate='$birthdate', street='$street', postcode='$postcode', Town='$Town', Phonenumber='$Phonenumber', Email='$Email', sex='$sex' WHERE PersonID='$ID'";
+  $sql = "UPDATE question SET questiontext='$questiontext', kindofquestion='$kindofquestion' WHERE QuestionID='$ID'";
 
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data updated successfully");
@@ -87,8 +87,8 @@ function updatePerson($ID ,$prename, $surname, $birthdate, $street, $postcode, $
   }
 }
 
-//Löscht ein Item aus der Tabelle person
-function deletePerson($ID){
+//Löscht ein Item aus der Tabelle question
+function deleteQuestion($ID){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -96,7 +96,7 @@ function deletePerson($ID){
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "DELETE FROM person WHERE PersonID =$ID";
+  $sql = "DELETE FROM question WHERE QuestionID =$ID";
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data deleted successfully");
   }
