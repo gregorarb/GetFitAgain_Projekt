@@ -30,6 +30,7 @@ export class FeedbackquestionsPage {
   
   ionViewDidLoad() {
     console.log("u got logged brah");
-    document.getElementById("newcontent").innerHTML = "<h3>TESTITNOWANDFAST</h3>'";
+    //document.getElementById("newcontent").innerHTML = "<h3>TESTITNOWANDFAST</h3>'";
   }
+ 
 }

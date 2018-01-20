@@ -7,14 +7,34 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>feedbackquestions</ion-title>
+    <ion-title>Alle Feedbacks</ion-title>
   </ion-navbar>
 </ion-header>
 
-<body onload="testit()">
   <ion-content padding>
-  <h3>test</h3>
-  <div id="newcontent"></div>
+    <body onload="testit()">
+        <form (ngSubmit)="logForm()">
+          <ion-item>
+            <ion-label text-wrap>Das ist eine sehr lange Frage die sich nicht in einer Zeile ausgeht?</ion-label>
+            <ion-range min="1" max="5" step="1" snaps="true" color="secondary" >
+              <ion-label range-left>1</ion-label>
+              <ion-label range-right>5</ion-label>
+            </ion-range>
+          </ion-item>
+            
+          <ion-item>
+            <ion-label text-wrap>Das ist eine sehr lange Frage die sich nicht in einer Zeile ausgeht?</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-textarea #myInput id="myInput" rows="5" maxLength="500" placeholder="Antworten Sie hier..."></ion-textarea>
+          </ion-item>
 
+          <ion-item>
+              <ion-label text-wrap>Das ist eine sehr lange Frage die sich nicht in einer Zeile ausgeht?</ion-label>
+              <ion-checkbox name="check">Ja</ion-checkbox>
+            </ion-item>
+          <button ion-button type="submit" block>Speichern</button>
+        </form>
+    </body>
+    
   </ion-content>
-</body>
