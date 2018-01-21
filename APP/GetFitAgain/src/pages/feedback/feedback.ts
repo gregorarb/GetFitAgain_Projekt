@@ -39,7 +39,7 @@ export class FeedbackPage {
     var newdata2 = JSON.parse(getFeedbackDone.responseText);
     var myarray2 = newdata2.data;
     var arrayLength2 = myarray2.length;
-
+    
     var myarray = newdata.data;
     var arrayLength = myarray.length;
 

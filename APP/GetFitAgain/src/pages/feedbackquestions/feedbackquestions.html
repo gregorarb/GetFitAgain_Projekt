@@ -14,25 +14,28 @@
   <ion-content padding>
     <body onload="testit()">
         <form (ngSubmit)="logForm()">
+          <!-- Testfall 1 (1-5) -->
           <ion-item>
             <ion-label text-wrap>Das ist eine sehr lange Frage die sich nicht in einer Zeile ausgeht?</ion-label>
-            <ion-range min="1" max="5" step="1" snaps="true" color="secondary" >
+            <ion-range min="1" max="5" step="1" snaps="true" color="secondary" [(ngModel)]="testValues[0].startvalue" name="test0">
               <ion-label range-left>1</ion-label>
               <ion-label range-right>5</ion-label>
             </ion-range>
           </ion-item>
             
+          <!-- Testfall 2 Textarea -->
           <ion-item>
             <ion-label text-wrap>Das ist eine sehr lange Frage die sich nicht in einer Zeile ausgeht?</ion-label>
           </ion-item>
           <ion-item>
-            <ion-textarea #myInput id="myInput" rows="5" maxLength="500" placeholder="Antworten Sie hier..."></ion-textarea>
+            <ion-textarea id="myInput" rows="5" maxLength="500" placeholder="Antworten Sie hier..." [(ngModel)]="testValues[1].startvalue" name="test1"></ion-textarea>
           </ion-item>
 
+          <!-- Testfall 3 (Checkbox) -->
           <ion-item>
-              <ion-label text-wrap>Das ist eine sehr lange Frage die sich nicht in einer Zeile ausgeht?</ion-label>
-              <ion-checkbox name="check">Ja</ion-checkbox>
-            </ion-item>
+            <ion-label text-wrap>Das ist eine sehr lange Frage die sich nicht in einer Zeile ausgeht?</ion-label>
+            <ion-checkbox name="check" id="kindofquestionThree_3" [(ngModel)]="testValues[2].startvalue" name="test2">Ja</ion-checkbox>
+          </ion-item>
           <button ion-button type="submit" block>Speichern</button>
         </form>
     </body>
