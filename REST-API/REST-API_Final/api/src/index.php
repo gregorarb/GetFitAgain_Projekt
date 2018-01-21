@@ -944,4 +944,59 @@ $app->delete('/feedbackquestions/{FeedbackID}/{QuestionID}', function (Request $
     deleteFeedbackquestions($FeedbackID, $QuestionID);
 });
 //------------------------------------------------------------------------------
+
+//REST-API für die Tabelle answer
+//------------------------------------------------------------------------------
+//Get all
+$app->get('/answer', function (Request $request, Response $response) {
+    getAllAnswers();
+});
+
+//Get answer with ID
+$app->get('/answer/{ID}', function (Request $request, Response $response) {
+    $ID = $request->getAttribute('ID');
+    getThisAnswer($ID);
+});
+
+//Create new Item of answer
+$app->post('/answer', function (Request $request, Response $response) {
+    if(isset($_POST["QuestionID"]) && isset($_POST["answerint"]) && isset($_POST["answerbool"]) && isset($_POST["answerstring"])){
+      $QuestionID = $_POST["QuestionID"];
+      $answerint = $_POST["answerint"];
+      $answerbool = $_POST["answerbool"];
+      $answerstring = $_POST["answerstring"];
+
+    }
+    else{
+      deliver_response(200, 1, "Not enough information");
+    }
+
+    createAnswer($QuestionID, $answerint, $answerbool, $answerstring);
+});
+
+//Update answer
+$app->put('/answer/{ID}', function (Request $request, Response $response){
+
+if(isset($request->getParsedBody()['QuestionID']) && isset($request->getParsedBody()['answerint']) && isset($request->getParsedBody()['answerbool']) && isset($request->getParsedBody()['answerstring'])){
+    $ID = $request->getAttribute('ID');
+      $QuestionID = $request->getParsedBody()['QuestionID'];
+      $answerint = $request->getParsedBody()['answerint'];
+      $answerbool = $request->getParsedBody()['answerbool'];
+      $answerstring = $request->getParsedBody()['answerstring'];
+
+  }
+  else{
+    deliver_response(200, 1, "Not enough information");
+  }
+
+  updateAnswer($ID, $QuestionID, $answerint, $answerbool, $answerstring);
+
+});
+
+//Delete Answer
+$app->delete('/answer/{ID}', function (Request $request, Response $response) {
+    $ID = $request->getAttribute('ID');
+    deleteAnswer($ID);
+});
+//------------------------------------------------------------------------------
 $app->run();
