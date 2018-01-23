@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { List } from 'ionic-angular';
 import { NavController, NavParams } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { Platform, ActionSheetController } from 'ionic-angular';
 
 import { FeedbackquestionsPage } from '../feedbackquestions/feedbackquestions';
 
@@ -14,7 +15,7 @@ export class FeedbackPage {
   feedbacks: Array<{FeedbackID: number, name: string, done: string, donebool: boolean}>;
 
   //Konstruktor
-  constructor(public navCtrl: NavController, public navParams: NavParams){//, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController){//, private storage: Storage) {
     this.getFeedbacksFromDatabase();
     //this.storage.setItem("CustomerID", "1");
   }
@@ -75,6 +76,41 @@ export class FeedbackPage {
     this.navCtrl.push(FeedbackquestionsPage, {
       item: item
     });
-    
+  }
+  
+  openMenu($event, item) {
+    let actionSheet = this.actionsheetCtrl.create({
+      title: 'Was wollen Sie machen?',
+      buttons: [
+        {
+          text: 'Bearbeiten',
+          role: 'edit',
+          icon: 'create',
+          handler: () => {
+            console.log('Edit clicked');
+            this.navCtrl.push(FeedbackquestionsPage, {
+              item: item
+            });
+          }
+        },
+        {
+          text: 'Löschen',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            console.log('Delete clicked');
+          }
+        },
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          icon: 'close',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 }
