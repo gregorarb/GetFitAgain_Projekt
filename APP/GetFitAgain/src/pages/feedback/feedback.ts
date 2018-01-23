@@ -3,6 +3,7 @@ import { List } from 'ionic-angular';
 import { NavController, NavParams } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { Platform, ActionSheetController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { FeedbackquestionsPage } from '../feedbackquestions/feedbackquestions';
 
@@ -12,12 +13,11 @@ import { FeedbackquestionsPage } from '../feedbackquestions/feedbackquestions';
 })
 export class FeedbackPage {
   //Variablen
-  feedbacks: Array<{FeedbackID: number, name: string, done: string, donebool: boolean}>;
+  feedbacks: Array<{FeedbackID: number, name: string, done: string, donebool: boolean, CustomerID: number}>;
 
   //Konstruktor
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController){//, private storage: Storage) {
     this.getFeedbacksFromDatabase();
-    //this.storage.setItem("CustomerID", "1");
   }
 
   //fügt Feedbacks mit allen wichtigen Informationen von der Datenbank in die Liste ein
@@ -57,7 +57,6 @@ export class FeedbackPage {
               isitdone = "Erledigt";
               isitdonebool = false;
             }
-            
           }
         }
         
@@ -65,7 +64,8 @@ export class FeedbackPage {
           FeedbackID: myarray[i].FeedbackID,
           name: myarray[i].name,
           done: isitdone,
-          donebool: isitdonebool
+          donebool: isitdonebool,
+          CustomerID: customerid
         });
         
     }

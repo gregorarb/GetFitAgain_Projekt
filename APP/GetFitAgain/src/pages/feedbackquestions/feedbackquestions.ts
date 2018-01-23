@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { FeedbackPage } from '../feedback/feedback';
 
 @IonicPage()
@@ -13,13 +13,17 @@ export class FeedbackquestionsPage {
   kindofquestionOneDynamic: Array<{QuestionID: number, questionIdentifyName: string, value: number, questiontext: string}>;
   kindofquestionTwoDynamic: Array<{QuestionID: number, questionIdentifyName: string, value: boolean, questiontext: string}>;
   kindofquestionThreeDynamic: Array<{QuestionID: number, questionIdentifyName: string, value: string, questiontext: string}>;
+  CustomerID: number;
 
   questions: Array<{QuestionID: number, questiontext: string, kindofquestion: number}>;
   testValues: Array<{startvalue: any, QuestionID: number}>;
   disableFeedback: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  //Konstruktor
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
     this.feedback = this.navParams.get('item');
+    this.CustomerID = this.feedback.CustomerID;
+
     this.kindofquestionOneDynamic = [];
     this.kindofquestionTwoDynamic = [];
     this.kindofquestionThreeDynamic = [];
@@ -27,7 +31,6 @@ export class FeedbackquestionsPage {
 
     this.getQuestionsOfFeedback();
     this.fillQuestionsOfFeedback();
-    console.log("Länge --> " + this.questions.length);
     
     this.generateKindOfQuestionOneDynamic();
     this.generateKindOfQuestionTwoDynamic();
@@ -76,57 +79,96 @@ export class FeedbackquestionsPage {
   }
 
   //Wenn die Page vollständig geladen ist
-  ionViewDidLoad() {
-    //console.log("u got logged brah");
-    //document.getElementById("newcontent").innerHTML = "<h3>TESTITNOWANDFAST</h3>'";
-  }
+  ionViewDidLoad() {}
 
   logForm(){
-    //console.log("data--> "+this.testValues);
-    console.log("-----Ergebnisse-----");
+    //Bewertungsfragen
     for(var i = 0; i < this.kindofquestionOneDynamic.length; i++){
-      console.log("Fragen 1-5");
-      console.log("QEUSTIONID --> " + this.kindofquestionOneDynamic[i].QuestionID);
-      console.log("Value --> " + this.kindofquestionOneDynamic[i].value);
-
       //Speicherung in die Datenbank
+      var data = new FormData();
+      data.append("QuestionID", ""+this.kindofquestionOneDynamic[i].QuestionID);
+      data.append("CustomerID", ""+this.CustomerID);
+      data.append("answerint", ""+this.kindofquestionOneDynamic[i].value);
+      data.append("answerbool", "0");
+      data.append("answerstring", "IGNORESTRING");
       
-      let postParams = {
-        QuestionID: 1,
-        answerint: 3,
-        answerbool: 2,
-        answerstring: "teststring"
-      }
-
-      var getFeedbackDone = new XMLHttpRequest(); // a new request
-      getFeedbackDone.open("POST","http://api/answer",false);
-      var params = "QuestionID="+this.kindofquestionOneDynamic[i].QuestionID+"&answerint="+this.kindofquestionOneDynamic[i].value+"&answerbool=2&answerstring='emptystring'";
-      getFeedbackDone.send(postParams);
-
-      console.log(postParams);
+      var sendFeedback = new XMLHttpRequest();
       
+      sendFeedback.open("POST", "http://api/answer", false);
+      sendFeedback.send(data);
+      
+      var newdatahelp = JSON.parse(sendFeedback.responseText);
+      /**
+       * Überprüfung für Insert einbauen?
+       */
     }
-    console.log("------------------------------------------------------");
+    //Ja Nein Fragen
     for(var i = 0; i < this.kindofquestionTwoDynamic.length; i++){
-      console.log("Fragen true or false");
-      console.log("QEUSTIONID --> " + this.kindofquestionTwoDynamic[i].QuestionID);
-      console.log("Value --> " + this.kindofquestionTwoDynamic[i].value);
+      //Speicherung in die Datenbank
+      var data = new FormData();
+      data.append("QuestionID", ""+this.kindofquestionTwoDynamic[i].QuestionID);
+      data.append("CustomerID", ""+this.CustomerID);
+      data.append("answerint", "0");
+      if(this.kindofquestionTwoDynamic[i].value == true){
+      data.append("answerbool", "1");
+      }
+      else{
+      data.append("answerbool", "2");
+      }
+      data.append("answerstring", "IGNORESTRING");
+      
+      var sendFeedback = new XMLHttpRequest();
+      
+      sendFeedback.open("POST", "http://api/answer", false);
+      sendFeedback.send(data);
+      
+      var newdatahelp = JSON.parse(sendFeedback.responseText);
+      /**
+      * Überprüfung für Insert einbauen?
+      */
     }
-    console.log("------------------------------------------------------");
+    //Textfragen
     for(var i = 0; i < this.kindofquestionThreeDynamic.length; i++){
-      console.log("Fragen true or false");
-      console.log("QEUSTIONID --> " + this.kindofquestionThreeDynamic[i].QuestionID);
-      console.log("Value --> " + this.kindofquestionThreeDynamic[i].value);
+      //Speicherung in die Datenbank
+      var data = new FormData();
+      data.append("QuestionID", ""+this.kindofquestionThreeDynamic[i].QuestionID);
+      data.append("CustomerID", ""+this.CustomerID);
+      data.append("answerint", "0");
+      data.append("answerbool", "0");
+      data.append("answerstring", ""+this.kindofquestionThreeDynamic[i].value);
+      
+      var sendFeedback = new XMLHttpRequest();
+      
+      sendFeedback.open("POST", "http://api/answer", false);
+      sendFeedback.send(data);
+      
+      var newdatahelp = JSON.parse(sendFeedback.responseText);
+      /**
+       * Überprüfung für Insert einbauen?
+       */
     }
+
+    //Feedback als getan markieren
+    var data = new FormData();
+    data.append("FeedbackID", ""+this.feedback.FeedbackID);
+    data.append("CustomerID", ""+this.CustomerID);
+    
+    var sendFeedback = new XMLHttpRequest();
+    
+    sendFeedback.open("POST", "http://api/feedbackdonebyuser", false);
+    sendFeedback.send(data);
+    
+    var newdatahelp = JSON.parse(sendFeedback.responseText);
+    /**
+     * Überprüfung für Insert einbauen?
+     */
+
+    //Redirect zu anderen Feedbacks
+    let modal = this.modalCtrl.create(FeedbackPage);
+    modal.present();
   }
 
-  onChange(ev: any, id: string){
-    //console.log(ev);
-    console.log("id --> " + id);
-    console.log("value --> " + ev._value)
-  }
-
-  //Generiert 1-5 Fragen
+  //Generiert Fragen mit range als Auswahl
   generateKindOfQuestionOneDynamic(){
     for (var i = 0; i < this.questions.length; i++) {
       if(this.questions[i].kindofquestion == 1){

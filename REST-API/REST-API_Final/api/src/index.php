@@ -47,6 +47,8 @@ include_once('Table/feedbackdonebyuser.php');
 include_once('Table/question.php');
 //feedbackquestions
 include_once('Table/feedbackquestions.php');
+//answer
+include_once('Table/answer.php');
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -960,8 +962,9 @@ $app->get('/answer/{ID}', function (Request $request, Response $response) {
 
 //Create new Item of answer
 $app->post('/answer', function (Request $request, Response $response) {
-    if(isset($_POST["QuestionID"]) && isset($_POST["answerint"]) && isset($_POST["answerbool"]) && isset($_POST["answerstring"])){
+    if(isset($_POST["QuestionID"]) && isset($_POST["CustomerID"]) && isset($_POST["answerint"]) && isset($_POST["answerbool"]) && isset($_POST["answerstring"])){
       $QuestionID = $_POST["QuestionID"];
+      $CustomerID = $_POST["CustomerID"];
       $answerint = $_POST["answerint"];
       $answerbool = $_POST["answerbool"];
       $answerstring = $_POST["answerstring"];
@@ -971,15 +974,16 @@ $app->post('/answer', function (Request $request, Response $response) {
       deliver_response(200, 1, "Not enough information");
     }
 
-    createAnswer($QuestionID, $answerint, $answerbool, $answerstring);
+    createAnswer($QuestionID, $CustomerID, $answerint, $answerbool, $answerstring);
 });
 
 //Update answer
 $app->put('/answer/{ID}', function (Request $request, Response $response){
 
-if(isset($request->getParsedBody()['QuestionID']) && isset($request->getParsedBody()['answerint']) && isset($request->getParsedBody()['answerbool']) && isset($request->getParsedBody()['answerstring'])){
+if(isset($request->getParsedBody()['QuestionID']) && isset($request->getParsedBody()['CustomerID']) && isset($request->getParsedBody()['answerint']) && isset($request->getParsedBody()['answerbool']) && isset($request->getParsedBody()['answerstring'])){
     $ID = $request->getAttribute('ID');
       $QuestionID = $request->getParsedBody()['QuestionID'];
+      $CustomerID = $request->getParsedBody()['CustomerID'];
       $answerint = $request->getParsedBody()['answerint'];
       $answerbool = $request->getParsedBody()['answerbool'];
       $answerstring = $request->getParsedBody()['answerstring'];
@@ -989,7 +993,7 @@ if(isset($request->getParsedBody()['QuestionID']) && isset($request->getParsedBo
     deliver_response(200, 1, "Not enough information");
   }
 
-  updateAnswer($ID, $QuestionID, $answerint, $answerbool, $answerstring);
+  updateAnswer($ID, $QuestionID, $CustomerID, $answerint, $answerbool, $answerstring);
 
 });
 
