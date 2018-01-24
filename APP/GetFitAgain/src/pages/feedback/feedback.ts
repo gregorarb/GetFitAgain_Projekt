@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { List } from 'ionic-angular';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -16,7 +16,7 @@ export class FeedbackPage {
   feedbacks: Array<{FeedbackID: number, name: string, done: string, donebool: boolean, CustomerID: number}>;
 
   //Konstruktor
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController){//, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public modalCtrl: ModalController){
     this.getFeedbacksFromDatabase();
   }
 
@@ -78,6 +78,32 @@ export class FeedbackPage {
     });
   }
   
+  deleteAllFeedbackQuestions(item){
+    //Fragen die bei einem Feedback beantwortet worden sind löschen
+    var deleteFeedbackQuestions = new XMLHttpRequest();
+    
+    deleteFeedbackQuestions.open("DELETE", "http://api/answer/"+item.FeedbackID+"/"+item.CustomerID, false);
+    deleteFeedbackQuestions.send(null);
+    
+    var newdatahelp = JSON.parse(deleteFeedbackQuestions.responseText);
+    /**
+     * Überprüfung für Insert einbauen?
+     */
+  }
+
+  deleteDoneFeedback(item){
+    //Feedback das bereits gemacht wurde wieder als nicht gemacht markieren
+    var deleteFeedbackDone = new XMLHttpRequest();
+    
+    deleteFeedbackDone.open("DELETE", "http://api/feedbackdonebyuser/"+item.FeedbackID+"/"+item.CustomerID, false);
+    deleteFeedbackDone.send(null);
+    
+    var newdatahelp = JSON.parse(deleteFeedbackDone.responseText);
+    /**
+     * Überprüfung für Insert einbauen?
+     */
+  }
+
   openMenu($event, item) {
     let actionSheet = this.actionsheetCtrl.create({
       title: 'Was wollen Sie machen?',
@@ -87,7 +113,7 @@ export class FeedbackPage {
           role: 'edit',
           icon: 'create',
           handler: () => {
-            console.log('Edit clicked');
+            //console.log('Edit clicked');
             this.navCtrl.push(FeedbackquestionsPage, {
               item: item
             });
@@ -98,7 +124,14 @@ export class FeedbackPage {
           role: 'destructive',
           icon: 'trash',
           handler: () => {
-            console.log('Delete clicked');
+            //console.log('Delete clicked');
+            
+            this.deleteAllFeedbackQuestions(item);
+            this.deleteDoneFeedback(item);
+
+            //Redirect zu anderen Feedbacks
+            let modal = this.modalCtrl.create(FeedbackPage);
+            modal.present();
           }
         },
         {
@@ -106,7 +139,7 @@ export class FeedbackPage {
           role: 'cancel',
           icon: 'close',
           handler: () => {
-            console.log('Cancel clicked');
+            //console.log('Cancel clicked');
           }
         }
       ]

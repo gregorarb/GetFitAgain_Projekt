@@ -2,6 +2,7 @@
 header("Content-Type: text/html; charset=UTF-8");
 //------------------------------------------------------------------------------
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
 //------------------------------------------------------------------------------
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -962,9 +963,10 @@ $app->get('/answer/{ID}', function (Request $request, Response $response) {
 
 //Create new Item of answer
 $app->post('/answer', function (Request $request, Response $response) {
-    if(isset($_POST["QuestionID"]) && isset($_POST["CustomerID"]) && isset($_POST["answerint"]) && isset($_POST["answerbool"]) && isset($_POST["answerstring"])){
-      $QuestionID = $_POST["QuestionID"];
+    if(isset($_POST["FeedbackID"]) && isset($_POST["CustomerID"]) && isset($_POST["QuestionID"]) && isset($_POST["answerint"]) && isset($_POST["answerbool"]) && isset($_POST["answerstring"])){
+      $FeedbackID = $_POST["FeedbackID"];
       $CustomerID = $_POST["CustomerID"];
+      $QuestionID = $_POST["QuestionID"];
       $answerint = $_POST["answerint"];
       $answerbool = $_POST["answerbool"];
       $answerstring = $_POST["answerstring"];
@@ -974,16 +976,17 @@ $app->post('/answer', function (Request $request, Response $response) {
       deliver_response(200, 1, "Not enough information");
     }
 
-    createAnswer($QuestionID, $CustomerID, $answerint, $answerbool, $answerstring);
+    createAnswer($FeedbackID, $CustomerID, $QuestionID, $answerint, $answerbool, $answerstring);
 });
 
 //Update answer
 $app->put('/answer/{ID}', function (Request $request, Response $response){
 
-if(isset($request->getParsedBody()['QuestionID']) && isset($request->getParsedBody()['CustomerID']) && isset($request->getParsedBody()['answerint']) && isset($request->getParsedBody()['answerbool']) && isset($request->getParsedBody()['answerstring'])){
+if(isset($request->getParsedBody()['FeedbackID']) && isset($request->getParsedBody()['CustomerID']) && isset($request->getParsedBody()['QuestionID']) && isset($request->getParsedBody()['answerint']) && isset($request->getParsedBody()['answerbool']) && isset($request->getParsedBody()['answerstring'])){
     $ID = $request->getAttribute('ID');
-      $QuestionID = $request->getParsedBody()['QuestionID'];
+      $FeedbackID = $request->getParsedBody()['FeedbackID'];
       $CustomerID = $request->getParsedBody()['CustomerID'];
+      $QuestionID = $request->getParsedBody()['QuestionID'];
       $answerint = $request->getParsedBody()['answerint'];
       $answerbool = $request->getParsedBody()['answerbool'];
       $answerstring = $request->getParsedBody()['answerstring'];
@@ -993,14 +996,15 @@ if(isset($request->getParsedBody()['QuestionID']) && isset($request->getParsedBo
     deliver_response(200, 1, "Not enough information");
   }
 
-  updateAnswer($ID, $QuestionID, $CustomerID, $answerint, $answerbool, $answerstring);
+  updateAnswer($ID, $FeedbackID, $CustomerID, $QuestionID, $answerint, $answerbool, $answerstring);
 
 });
 
 //Delete Answer
-$app->delete('/answer/{ID}', function (Request $request, Response $response) {
-    $ID = $request->getAttribute('ID');
-    deleteAnswer($ID);
+$app->delete('/answer/{FeedbackID}/{CustomerID}', function (Request $request, Response $response) {
+    $FeedbackID = $request->getAttribute('FeedbackID');
+    $CustomerID = $request->getAttribute('CustomerID');
+    deleteAnswer($FeedbackID, $CustomerID);
 });
 //------------------------------------------------------------------------------
 $app->run();

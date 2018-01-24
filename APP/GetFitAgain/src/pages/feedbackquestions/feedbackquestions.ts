@@ -21,7 +21,13 @@ export class FeedbackquestionsPage {
 
   //Konstruktor
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+    //Übergabeparameter
     this.feedback = this.navParams.get('item');
+
+    //Zuerst zur Sicherheit nochmal löschen
+    this.deleteAllFeedbackQuestions(this.feedback);
+    this.deleteDoneFeedback(this.feedback);
+    
     this.CustomerID = this.feedback.CustomerID;
 
     this.kindofquestionOneDynamic = [];
@@ -86,6 +92,7 @@ export class FeedbackquestionsPage {
     for(var i = 0; i < this.kindofquestionOneDynamic.length; i++){
       //Speicherung in die Datenbank
       var data = new FormData();
+      data.append("FeedbackID", ""+this.feedback.FeedbackID);
       data.append("QuestionID", ""+this.kindofquestionOneDynamic[i].QuestionID);
       data.append("CustomerID", ""+this.CustomerID);
       data.append("answerint", ""+this.kindofquestionOneDynamic[i].value);
@@ -106,6 +113,7 @@ export class FeedbackquestionsPage {
     for(var i = 0; i < this.kindofquestionTwoDynamic.length; i++){
       //Speicherung in die Datenbank
       var data = new FormData();
+      data.append("FeedbackID", ""+this.feedback.FeedbackID);
       data.append("QuestionID", ""+this.kindofquestionTwoDynamic[i].QuestionID);
       data.append("CustomerID", ""+this.CustomerID);
       data.append("answerint", "0");
@@ -131,6 +139,7 @@ export class FeedbackquestionsPage {
     for(var i = 0; i < this.kindofquestionThreeDynamic.length; i++){
       //Speicherung in die Datenbank
       var data = new FormData();
+      data.append("FeedbackID", ""+this.feedback.FeedbackID);
       data.append("QuestionID", ""+this.kindofquestionThreeDynamic[i].QuestionID);
       data.append("CustomerID", ""+this.CustomerID);
       data.append("answerint", "0");
@@ -208,5 +217,33 @@ export class FeedbackquestionsPage {
         });
       }
     }
+  }
+  /**
+   * Diese Methoden stellen vor dem bearbeiten nocheinmal sicher dass das Formular nur einmal ausgefüllt wurde 
+   */
+  deleteAllFeedbackQuestions(item){
+    //Fragen die bei einem Feedback beantwortet worden sind löschen
+    var deleteFeedbackQuestions = new XMLHttpRequest();
+    
+    deleteFeedbackQuestions.open("DELETE", "http://api/answer/"+item.FeedbackID+"/"+item.CustomerID, false);
+    deleteFeedbackQuestions.send(null);
+    
+    var newdatahelp = JSON.parse(deleteFeedbackQuestions.responseText);
+    /**
+     * Überprüfung für Insert einbauen?
+     */
+  }
+
+  deleteDoneFeedback(item){
+    //Feedback das bereits gemacht wurde wieder als nicht gemacht markieren
+    var deleteFeedbackDone = new XMLHttpRequest();
+    
+    deleteFeedbackDone.open("DELETE", "http://api/feedbackdonebyuser/"+item.FeedbackID+"/"+item.CustomerID, false);
+    deleteFeedbackDone.send(null);
+    
+    var newdatahelp = JSON.parse(deleteFeedbackDone.responseText);
+    /**
+     * Überprüfung für Insert einbauen?
+     */
   }
 }

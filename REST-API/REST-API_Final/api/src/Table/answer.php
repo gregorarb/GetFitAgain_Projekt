@@ -48,7 +48,7 @@ function getThisAnswer($ID){
 
 
 //Erstellt ein Item der Tabelle answer
-function createAnswer($QuestionID, $CustomerID, $answerint, $answerbool, $answerstring){
+function createAnswer($FeedbackID, $CustomerID, $QuestionID, $answerint, $answerbool, $answerstring){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -56,8 +56,8 @@ function createAnswer($QuestionID, $CustomerID, $answerint, $answerbool, $answer
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "INSERT INTO answer(QuestionID, CustomerID, answerint, answerbool, answerstring)
-          VALUES ('$QuestionID', '$CustomerID', '$answerint', '$answerbool', '$answerstring')";
+  $sql = "INSERT INTO answer(FeedbackID, CustomerID, QuestionID, answerint, answerbool, answerstring)
+          VALUES ('$FeedbackID', '$CustomerID', '$QuestionID', '$answerint', '$answerbool', '$answerstring')";
 
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data created successfully");
@@ -69,7 +69,7 @@ function createAnswer($QuestionID, $CustomerID, $answerint, $answerbool, $answer
 
 
 //Updated ein Item der Tabelle answer
-function updateAnswer($ID ,$QuestionID, $CustomerID, $answerint, $answerbool, $answerstring){
+function updateAnswer($ID ,$FeedbackID, $CustomerID, $QuestionID, $answerint, $answerbool, $answerstring){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -77,7 +77,7 @@ function updateAnswer($ID ,$QuestionID, $CustomerID, $answerint, $answerbool, $a
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "UPDATE answer SET QuestionID='$QuestionID', CustomerID='$CustomerID', answerint='$answerint', answerbool='$answerbool', answerstring='$answerstring' WHERE AnswerID='$ID'";
+  $sql = "UPDATE answer SET FeedbackID='$FeedbackID', CustomerID='$CustomerID', QuestionID='$QuestionID', answerint='$answerint', answerbool='$answerbool', answerstring='$answerstring' WHERE AnswerID='$ID'";
 
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data updated successfully");
@@ -88,7 +88,7 @@ function updateAnswer($ID ,$QuestionID, $CustomerID, $answerint, $answerbool, $a
 }
 
 //Löscht ein Item aus der Tabelle answer
-function deleteAnswer($ID){
+function deleteAnswer($FeedbackID, $CustomerID){
   define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
   include_once DOC_ROOT_PATH . "/othermethods.php";
 
@@ -96,7 +96,7 @@ function deleteAnswer($ID){
   $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
   mysqli_set_charset($conn, "utf8");
 
-  $sql = "DELETE FROM answer WHERE AnswerID =$ID";
+  $sql = "DELETE FROM answer WHERE FeedbackID = $FeedbackID && CustomerID = $CustomerID";
   if ($conn->query($sql) == TRUE) {
     deliver_response(200, 0, "Data deleted successfully");
   }
