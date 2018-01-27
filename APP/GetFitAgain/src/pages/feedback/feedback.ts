@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { List } from 'ionic-angular';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -16,7 +16,7 @@ export class FeedbackPage {
   feedbacks: Array<{FeedbackID: number, name: string, done: string, donebool: boolean, CustomerID: number}>;
 
   //Konstruktor
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController, public modalCtrl: ModalController){
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController){
     this.getFeedbacksFromDatabase();
   }
 
@@ -130,8 +130,7 @@ export class FeedbackPage {
             this.deleteDoneFeedback(item);
 
             //Redirect zu anderen Feedbacks
-            let modal = this.modalCtrl.create(FeedbackPage);
-            modal.present();
+            this.navCtrl.setRoot(FeedbackPage);
           }
         },
         {

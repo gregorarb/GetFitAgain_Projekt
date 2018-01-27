@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FeedbackPage } from '../feedback/feedback';
 
 @IonicPage()
@@ -20,7 +20,7 @@ export class FeedbackquestionsPage {
   disableFeedback: boolean;
 
   //Konstruktor
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     //Übergabeparameter
     this.feedback = this.navParams.get('item');
 
@@ -173,8 +173,7 @@ export class FeedbackquestionsPage {
      */
 
     //Redirect zu anderen Feedbacks
-    let modal = this.modalCtrl.create(FeedbackPage);
-    modal.present();
+    this.navCtrl.setRoot(FeedbackPage);
   }
 
   //Generiert Fragen mit range als Auswahl
