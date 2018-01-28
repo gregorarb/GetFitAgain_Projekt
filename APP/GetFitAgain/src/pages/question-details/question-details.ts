@@ -37,7 +37,19 @@ export class QuestionDetailsPage {
      * Nur wenn QuestionID == -1 muss nichts gelöscht werden, sonst muss alles was mit der Antwort der Frage zu tun hat gelöscht werden
      */
      if(this.question.QuestionID != -1){
-
+      
     }
+  }
+  deleteAnswers(){
+    //Feedback das bereits gemacht wurde wieder als nicht gemacht markieren
+    var deleteAnswersOfQuestions = new XMLHttpRequest();
+      
+    deleteAnswersOfQuestions.open("DELETE", "http://api/answer", false);
+    deleteAnswersOfQuestions.send(null);
+    
+    var newdatahelp = JSON.parse(deleteAnswersOfQuestions.responseText);
+    /**
+     * Überprüfung für einbauen?
+     */
   }
 }
