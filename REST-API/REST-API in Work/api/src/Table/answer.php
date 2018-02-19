@@ -104,3 +104,38 @@ function deleteAnswer($FeedbackID, $CustomerID){
     deliver_response(200, 1, "Data could not have been deleted");
   }
 }
+
+//Löscht ein Item aus der Tabelle answer mit der QuestionID
+function deleteAnswerWithQuestionID($QuestionID){
+  define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
+  include_once DOC_ROOT_PATH . "/othermethods.php";
+
+  //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
+  $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
+  mysqli_set_charset($conn, "utf8");
+
+  $sql = "DELETE FROM answer WHERE QuestionID = $QuestionID";
+  if ($conn->query($sql) == TRUE) {
+    deliver_response(200, 0, "Data deleted successfully");
+  }
+  else {
+    deliver_response(200, 1, "Data could not have been deleted");
+  }
+}
+
+function deleteAnswerWithMoreParameters($AnswerID, $FeedbackID, $QuestionID){
+  define('DOC_ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
+  include_once DOC_ROOT_PATH . "/othermethods.php";
+
+  //Verbindung aufbauen und Datenbankresponse UTF-8 encoden
+  $conn = mysqli_connect('127.0.0.1', 'root', '', 'getfitagain', 3306) or die (mysql_error());
+  mysqli_set_charset($conn, "utf8");
+
+  $sql = "DELETE FROM answer WHERE AnswerID = $AnswerID && FeedbackID = $FeedbackID && QuestionID = $QuestionID";
+  if ($conn->query($sql) == TRUE) {
+    deliver_response(200, 0, "Data deleted successfully");
+  }
+  else {
+    deliver_response(200, 1, "Data could not have been deleted");
+  }
+}

@@ -865,6 +865,12 @@ $app->delete('/feedbackdonebyuser/{FeedbackID}/{CustomerID}', function (Request 
     $CustomerID = $request->getAttribute('CustomerID');
     deleteFeedbackdonebyuser($FeedbackID, $CustomerID);
 });
+
+//Delete Feedbackdonebyuser
+$app->delete('/feedbackdonebyuser/{FeedbackID}', function (Request $request, Response $response) {
+    $FeedbackID = $request->getAttribute('FeedbackID');
+    deleteFeedbackdonebyuserWithFeedbackID($FeedbackID);
+});
 //------------------------------------------------------------------------------
 //REST-API für die Tabelle question
 //------------------------------------------------------------------------------
@@ -925,6 +931,11 @@ $app->get('/feedbackquestions/{FeedbackID}', function (Request $request, Respons
     getThisFeedbackquestions($ID);
 });
 
+//Get feedbackquestions
+$app->get('/feedbackquestions', function (Request $request, Response $response) {
+    getFeedbackquestions();
+});
+
 //Create new Item of feedbackquestions
 $app->post('/feedbackquestions', function (Request $request, Response $response) {
     if(isset($_POST["FeedbackID"]) && isset($_POST["QuestionID"])){
@@ -945,6 +956,12 @@ $app->delete('/feedbackquestions/{FeedbackID}/{QuestionID}', function (Request $
     $FeedbackID = $request->getAttribute('FeedbackID');
     $QuestionID = $request->getAttribute('QuestionID');
     deleteFeedbackquestions($FeedbackID, $QuestionID);
+});
+
+//Löscht alles mit der QuestionID
+$app->delete('/feedbackquestions/{QuestionID}', function (Request $request, Response $response) {
+    $QuestionID = $request->getAttribute('QuestionID');
+    deleteFeedbackquestionsWithQuestionID($QuestionID);
 });
 //------------------------------------------------------------------------------
 
@@ -1005,6 +1022,21 @@ $app->delete('/answer/{FeedbackID}/{CustomerID}', function (Request $request, Re
     $FeedbackID = $request->getAttribute('FeedbackID');
     $CustomerID = $request->getAttribute('CustomerID');
     deleteAnswer($FeedbackID, $CustomerID);
+});
+
+//Delete Answer mit QuestionID
+$app->delete('/answer/{QuestionID}', function (Request $request, Response $response) {
+    $QuestionID = $request->getAttribute('QuestionID');
+    deleteAnswerWithQuestionID($QuestionID);
+});
+
+//Delete Answer mit AnswerID, FeedbackID und QuestionID
+$app->delete('/answer/{AnswerID}/{FeedbackID}/{QuestionID}', function (Request $request, Response $response) {
+    $AnswerID = $request->getAttribute('AnswerID');
+    $FeedbackID = $request->getAttribute('FeedbackID');
+    $QuestionID = $request->getAttribute('QuestionID');
+
+    deleteAnswerWithMoreParameters($AnswerID, $FeedbackID, $QuestionID);
 });
 //------------------------------------------------------------------------------
 $app->run();
