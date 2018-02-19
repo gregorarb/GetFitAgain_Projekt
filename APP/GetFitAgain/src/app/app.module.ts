@@ -10,10 +10,11 @@ import { FeedbackPage } from '../pages/feedback/feedback';
 import { FeedbackquestionsPage } from '../pages/feedbackquestions/feedbackquestions';
 import { ManageQuestionsPage } from '../pages/manage-questions/manage-questions';
 import { QuestionDetailsPage } from '../pages/question-details/question-details';
+import { ManageFeedbacksPage } from '../pages/manage-feedbacks/manage-feedbacks';
+import { FeedbackDetailsPage } from '../pages/feedback-details/feedback-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     FeedbackPage,
     FeedbackquestionsPage,
     ManageQuestionsPage,
-    QuestionDetailsPage
+    QuestionDetailsPage,
+    ManageFeedbacksPage,
+    FeedbackDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     FeedbackPage,
     FeedbackquestionsPage,
     ManageQuestionsPage,
-    QuestionDetailsPage
+    QuestionDetailsPage,
+    ManageFeedbacksPage,
+    FeedbackDetailsPage
   ],
   providers: [
     StatusBar,

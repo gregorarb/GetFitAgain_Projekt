@@ -9,7 +9,7 @@
 
 <ion-content padding>
     <h3>Details zur Frage</h3>
-    <form (ngSubmit)="logForm()">
+    <form>
       <ion-list>
         <ion-list-header text-wrap>
           Hier können Sie die Frage bearbeiten!<br>
@@ -27,14 +27,14 @@
 
         <button ion-item>
           <ion-label>Fragenart</ion-label>
-          <ion-select [(ngModel)]="question.kindofquestion">
+          <ion-select [(ngModel)]="question.kindofquestion" [ngModelOptions]="{standalone: true}">
             <ion-option value="1">Bewertung 1-5</ion-option>
             <ion-option value="2">Richtig oder Falsch</ion-option>
             <ion-option value="3">Textantwort</ion-option>
           </ion-select>
         </button>
 
-        <button ion-button type="submit" block>Speichern</button>
+        <button ion-button type="button" (click)="logForm()" block>Speichern</button>
       </ion-list>
     </form>
   </ion-content>

@@ -37,37 +37,54 @@ export class FeedbackPage {
     getFeedbackDone.open("GET","http://api/feedbackdonebyuser",false);
     getFeedbackDone.send(null);
     
-    var newdata2 = JSON.parse(getFeedbackDone.responseText);
-    var myarray2 = newdata2.data;
-    var arrayLength2 = myarray2.length;
+    if(newdata.data != null){
     
-    var myarray = newdata.data;
-    var arrayLength = myarray.length;
+      var newdata2 = JSON.parse(getFeedbackDone.responseText);
 
-    this.feedbacks = [];
-    
-    for (var i = 0; i < arrayLength; i++) {
-        var isitdone = "Unerledigt";
-        var isitdonebool = null;
-        //hat der user das feedback schon gemacht?
-        for (var j = 0; j < arrayLength2; j++){
-          //customerid --> lokales objekt später DB objekt
-          if(customerid == myarray2[j].CustomerID){
-            if(myarray2[j].FeedbackID == myarray[i].FeedbackID){
-              isitdone = "Erledigt";
-              isitdonebool = false;
+      var myarray = newdata.data;
+      var arrayLength = myarray.length;
+
+      this.feedbacks = [];
+      
+      if(newdata2.data != null){
+        var myarray2 = newdata2.data;
+        var arrayLength2 = myarray2.length;
+        
+        for (var i = 0; i < arrayLength; i++) {
+          var isitdone = "Unerledigt";
+          var isitdonebool = null;
+          //hat der user das feedback schon gemacht?
+          for (var j = 0; j < arrayLength2; j++){
+            //customerid --> lokales objekt später DB objekt
+            if(customerid == myarray2[j].CustomerID){
+              if(myarray2[j].FeedbackID == myarray[i].FeedbackID){
+                isitdone = "Erledigt";
+                isitdonebool = false;
+              }
             }
           }
+          
+          this.feedbacks.push({
+            FeedbackID: myarray[i].FeedbackID,
+            name: myarray[i].name,
+            done: isitdone,
+            donebool: isitdonebool,
+            CustomerID: customerid
+          });
         }
-        
-        this.feedbacks.push({
-          FeedbackID: myarray[i].FeedbackID,
-          name: myarray[i].name,
-          done: isitdone,
-          donebool: isitdonebool,
-          CustomerID: customerid
-        });
-        
+      }
+      //wenn feedbackquestions null ist dann ist keins der Feedbacks gemacht
+      else{
+        for (var i = 0; i < arrayLength; i++) {
+          this.feedbacks.push({
+            FeedbackID: myarray[i].FeedbackID,
+            name: myarray[i].name,
+            done: "Unerledigt",
+            donebool: null,
+            CustomerID: customerid
+          });
+        }
+      }
     }
   }
 

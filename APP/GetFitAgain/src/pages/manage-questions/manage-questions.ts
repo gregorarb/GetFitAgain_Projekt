@@ -33,23 +33,25 @@ export class ManageQuestionsPage {
     var newdata = JSON.parse(getFeedback.responseText);
     var iconname = "";
 
-    for(var i = 0; i < newdata.data.length; i++){
-      if(newdata.data[i].kindofquestion == 1){
-        iconname = "swap";
+    if(newdata.data != null){
+      for(var i = 0; i < newdata.data.length; i++){
+        if(newdata.data[i].kindofquestion == 1){
+          iconname = "swap";
+        }
+        else if(newdata.data[i].kindofquestion == 2){
+          iconname = "checkbox-outline";
+        }
+        else if(newdata.data[i].kindofquestion == 3){
+          iconname = "ios-create";
+        }
+  
+        this.questions.push({
+          QuestionID: newdata.data[i].QuestionID,
+          questiontext: newdata.data[i].questiontext,
+          kindofquestion: newdata.data[i].kindofquestion,
+          icon: iconname
+        });
       }
-      else if(newdata.data[i].kindofquestion == 2){
-        iconname = "checkbox-outline";
-      }
-      else if(newdata.data[i].kindofquestion == 3){
-        iconname = "ios-create";
-      }
-
-      this.questions.push({
-        QuestionID: newdata.data[i].QuestionID,
-        questiontext: newdata.data[i].questiontext,
-        kindofquestion: newdata.data[i].kindofquestion,
-        icon: iconname
-      });
     }
   }
   //Optionen wenn Item aus Liste ausgewählt wurde
@@ -62,7 +64,6 @@ export class ManageQuestionsPage {
           role: 'edit',
           icon: 'create',
           handler: () => {
-            console.log('Edit clicked');
             this.navCtrl.push(QuestionDetailsPage, {
               item: item
             });
@@ -74,14 +75,10 @@ export class ManageQuestionsPage {
           role: 'destructive',
           icon: 'trash',
           handler: () => {
-            console.log('Delete clicked');
-            /*
-            this.deleteAllFeedbackQuestions(item);
-            this.deleteDoneFeedback(item);
-
-            //Redirect zu anderen Feedbacks
-            this.navCtrl.setRoot(FeedbackPage);
-            */
+            this.deleteAnswers(item);
+            this.deleteFeedbackquestions(item);
+            this.deleteQuestion(item);
+            this.navCtrl.setRoot(ManageQuestionsPage);
           }
         },
         {
@@ -89,7 +86,6 @@ export class ManageQuestionsPage {
           role: 'cancel',
           icon: 'close',
           handler: () => {
-            console.log('Cancel clicked');
           }
         }
       ]
@@ -97,8 +93,29 @@ export class ManageQuestionsPage {
     actionSheet.present();
   }
 
+  //Öffnet ein neues Window und erstellt eine neue Frage
   addItem(){
-    console.log("Add clicked");
     this.navCtrl.push(QuestionDetailsPage);
+  }
+  //Löscht alte Antworten
+  deleteAnswers(item){
+    var deleteAnswersOfQuestions = new XMLHttpRequest();
+      
+    deleteAnswersOfQuestions.open("DELETE", "http://api/answer/"+item.QuestionID, false);
+    deleteAnswersOfQuestions.send(null);
+  }
+  //Löscht die Verknüpfung auf die Feedbackquestionstabelle
+  deleteFeedbackquestions(item){
+    var deleteFeedbackQuestions = new XMLHttpRequest();
+    
+    deleteFeedbackQuestions.open("DELETE", "http://api/feedbackquestions/"+item.QuestionID, false);
+    deleteFeedbackQuestions.send(null);
+  }
+  //Löscht die Frage in der questions tabelle
+  deleteQuestion(item){
+    var deleteTheQuestion = new XMLHttpRequest();
+    
+    deleteTheQuestion.open("DELETE", "http://api/question/"+item.QuestionID, false);
+    deleteTheQuestion.send(null);
   }
 }

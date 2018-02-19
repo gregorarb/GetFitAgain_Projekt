@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ManageQuestionsPage } from '../manage-questions/manage-questions';
 
 @IonicPage()
 @Component({
@@ -9,6 +10,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class QuestionDetailsPage {
   //Variablen
   question: any;
+  newquestion: boolean;
   
   //Konstruktor
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -26,30 +28,56 @@ export class QuestionDetailsPage {
         questiontext: "",
         kindofquestion: 0,
       });
+      this.newquestion = true;
     }
     else{
       this.question = this.navParams.get('item');
+      this.newquestion = false;
     }
   }
 
   logForm(){
     /**
-     * Nur wenn QuestionID == -1 muss nichts gelöscht werden, sonst muss alles was mit der Antwort der Frage zu tun hat gelöscht werden
+     * Nur wenn eine neue Frage erstellt wird muss nichts gelöscht werden, sonst muss alles was mit der Antwort der Frage zu tun hat gelöscht werden
      */
-     if(this.question.QuestionID != -1){
-      
+    if(this.newquestion == false){
+      //Löscht alte Antworten auf die Frage da sie nach der Änderung nicht mehr korrekt sein werden
+      this.deleteAnswers();
+      //Updatet anschließend die Frage
+      this.updateQuestion();
     }
+    else{
+      this.createQuestion();
+    }
+    this.navCtrl.setRoot(ManageQuestionsPage);
   }
+  //Löscht alte Antworten
   deleteAnswers(){
-    //Feedback das bereits gemacht wurde wieder als nicht gemacht markieren
     var deleteAnswersOfQuestions = new XMLHttpRequest();
       
-    deleteAnswersOfQuestions.open("DELETE", "http://api/answer", false);
+    deleteAnswersOfQuestions.open("DELETE", "http://api/answer/"+this.question.QuestionID, false);
     deleteAnswersOfQuestions.send(null);
+  }
+  //Updated eine Frage
+  updateQuestion(){
+    var updateQuestion = new XMLHttpRequest();
     
-    var newdatahelp = JSON.parse(deleteAnswersOfQuestions.responseText);
-    /**
-     * Überprüfung für einbauen?
-     */
+    var data = "kindofquestion="+this.question.kindofquestion+"&questiontext="+this.question.questiontext;
+    
+    updateQuestion.open("PUT", "http://api/question/"+this.question.QuestionID, false);
+    updateQuestion.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    updateQuestion.send(data);
+  }
+  //erstellt eine Frage
+  createQuestion(){
+    var createQuestion = new XMLHttpRequest();
+    
+    var data = new FormData();
+    
+    data.append("questiontext", ""+this.question.questiontext);
+    data.append("kindofquestion", ""+this.question.kindofquestion);
+
+    createQuestion.open("POST", "http://api/question", false);
+    createQuestion.send(data);
   }
 }

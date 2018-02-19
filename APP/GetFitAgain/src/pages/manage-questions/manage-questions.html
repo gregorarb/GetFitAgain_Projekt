@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Feedbacks verwalten</ion-title>
+    <ion-title>Fragenverwaltung</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -15,14 +15,13 @@
     </ion-list-header>
     
     <!-- Hinzufügen eines neuen Items -->
-    <button ion-item (click)="addItem()"><!-- CLICK EVENT ANPASSEN DASS MAN GLEICH AUF HINZUFÜGEN KOMMT -->
+    <button ion-item (click)="addItem()">
       <h2>Frage hinzufügen</h2>
       <ion-icon name="add" item-start></ion-icon>
     </button>  
 
     <button ion-item *ngFor="let item of questions" (click)="openMenu($event, item)">
       <h2>{{item.questiontext}}</h2>
-      <!--<p item-end>{{item.kindofquestion}}</p>-->
       <ion-icon name="{{item.icon}}" item-end></ion-icon>
     </button>
     

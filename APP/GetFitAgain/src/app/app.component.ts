@@ -7,7 +7,7 @@ import { ManageQuestionsPage } from '../pages/manage-questions/manage-questions'
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { FeedbackPage } from '../pages/feedback/feedback';
-
+import { ManageFeedbacksPage } from '../pages/manage-feedbacks/manage-feedbacks';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,7 +27,8 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
       { title: 'Geben Sie uns Feedback', component: FeedbackPage},
-      { title: 'Fragen bearbeiten', component: ManageQuestionsPage}
+      { title: 'Fragenverwaltung', component: ManageQuestionsPage},
+      { title: 'Feedbackverwaltung', component: ManageFeedbacksPage}
     ];
 
   }
