@@ -13,6 +13,20 @@
   <p>
     If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
   </p>
-
+<!--
+  <div>
+    <div style="display: block">
+      <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+    <button (click)="randomize()">Update</button>
+  </div>
+-->
   <button ion-button secondary menuToggle>Toggle Menu</button>
 </ion-content>

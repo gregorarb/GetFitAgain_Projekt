@@ -7,22 +7,8 @@
       <ion-title>Feedback</ion-title>
     </ion-navbar>
   </ion-header>
-  <!--
-  <ion-content>
-      <div class="row header">
-          <div class="col">Fragebogen</div>
-          <div class="col">Status</div>
-          <div class="col">Bearbeiten</div>
-        </div>
-        <div class="row" *ngFor="let item of items">
-          <div class="col">{{item.title}}</div>
-          <div class="col">{{item.title}}</div>
-          <div class="col"><button class="button">Add</button></div>
-        </div>
-  </ion-content>
--->
-
-<ion-content>
+  
+<ion-content padding>
     <h3>Dein Feedback ist uns Wichtig!</h3>
 
     <ion-list>
@@ -30,15 +16,9 @@
         Feedbackmöglichkeiten
       </ion-list-header>
       
-      <button ion-item *ngFor="let item of items" (click)="openFeedbackQuestions()">
-          <h2>{{item.title}}</h2>
-          <p [ngClass]='item.icon' item-end>{{item.icon}}</p>
-        
-          <!--
-        <Button ion-button item-end>
-            <ion-icon name='create'> Erstellen</ion-icon>
-        </Button>
-        -->
+      <button ion-item *ngFor="let item of feedbacks" (click)="openMenu($event, item)">
+        <h2>{{item.name}}</h2>
+        <p [ngClass]='item.done' item-end>{{item.done}}</p>
       </button>
       
     </ion-list>

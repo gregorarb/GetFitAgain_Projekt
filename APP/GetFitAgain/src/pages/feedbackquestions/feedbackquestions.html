@@ -1,18 +1,33 @@
-<!--
-  Generated template for the FeedbackquestionsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>feedbackquestions</ion-title>
+    <ion-title>Alle Feedbacks</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+  <ion-content padding>
+    <form (ngSubmit)="logForm()">
+      <!-- Fall 1 (1-5) -->
+      <ion-item *ngFor="let item of kindofquestionOneDynamic">
+        <ion-label text-wrap>{{item.questiontext}}</ion-label>
+        <ion-range min="1" max="5" step="1" snaps="true" color="secondary" [(ngModel)]="item.value" name="neededrangeName">
+          <ion-label range-left>1</ion-label>
+          <ion-label range-right>5</ion-label>
+        </ion-range>
+      </ion-item>
 
-<ion-content padding>
-<h3>Hallo i bims eine Page</h3>
-</ion-content>
+      <!-- Fall 2 (Checkbox) -->
+      <ion-item *ngFor="let item of kindofquestionTwoDynamic">
+        <ion-label text-wrap>{{item.questiontext}}</ion-label>
+        <ion-checkbox name="check" [(ngModel)]="item.value" name="neededCheckboxName">Ja</ion-checkbox>
+      </ion-item>
+
+      <!-- Fall 3 Textarea -->
+      <ion-item *ngFor="let item of kindofquestionThreeDynamic">
+        <ion-label text-wrap floating>{{item.questiontext}}</ion-label>
+        <ion-textarea id="myInput" rows="5" maxLength="500" [(ngModel)]="item.value" name="neededtextareaName"></ion-textarea>
+      </ion-item>
+
+      <button ion-button type="submit" disabled={{disableFeedback}} block>Speichern</button>
+    </form>
+  </ion-content>

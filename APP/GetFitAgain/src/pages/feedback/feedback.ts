@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { List } from 'ionic-angular';
 import { NavController, NavParams } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
+import { Platform, ActionSheetController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { FeedbackquestionsPage } from '../feedbackquestions/feedbackquestions';
 
@@ -10,55 +13,153 @@ import { FeedbackquestionsPage } from '../feedbackquestions/feedbackquestions';
 })
 export class FeedbackPage {
   //Variablen
-  items: Array<{title: string, note: string, icon: string}>;
-  icons: string[];
-  selectedItem: any;
+  feedbacks: Array<{FeedbackID: number, name: string, done: string, donebool: boolean, CustomerID: number}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
-
-
-
-    // Let's populate this page with some filler content for funzies
-    this.icons = ['Erledigt', 'Unerledigt'];
-
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Feedback ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
-    //this.show();
-    //var json_obj = JSON.parse(this.Getdata("http://api/person/1"));
-    var json_obj = this.Getdata("http://api/person/1");
-    //console.log("this is the name: "+json_obj.data.name);
-    //console.log("DATA --> \n" + json_obj);
+  //Konstruktor
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionsheetCtrl: ActionSheetController){
+    this.getFeedbacksFromDatabase();
   }
 
-  show() {
-    for (let i = 1; i < 11; i++) {
-      
-      this.items[i-1].title = "testfeedback";
-    }
-  }
+  //fügt Feedbacks mit allen wichtigen Informationen von der Datenbank in die Liste ein
+  getFeedbacksFromDatabase(){
+    //customerid --> mit local storage ersetzen
+    var customerid = 1;
 
-  Getdata(yourUrl){
-    var Httpreq = new XMLHttpRequest(); // a new request
-    Httpreq.open("GET",yourUrl,false);
-    Httpreq.send(null);
-    return Httpreq.responseText;          
-  }
-
-  itemTapped(event, item) {
-    // That's right, we're pushing to ourselves!
-    console.log("Jo da is wos gscheid fest druckt woadn");
-  }
-
-  openFeedbackQuestions(){
-    this.navCtrl.push(FeedbackquestionsPage);
+    //Get feedback
+    var getFeedback = new XMLHttpRequest(); // a new request
+    getFeedback.open("GET","http://api/feedback",false);
+    getFeedback.send(null);
     
+    var newdata = JSON.parse(getFeedback.responseText);
+
+    //Get Feedbacks done by users
+    var getFeedbackDone = new XMLHttpRequest(); // a new request
+    getFeedbackDone.open("GET","http://api/feedbackdonebyuser",false);
+    getFeedbackDone.send(null);
+    
+    if(newdata.data != null){
+    
+      var newdata2 = JSON.parse(getFeedbackDone.responseText);
+
+      var myarray = newdata.data;
+      var arrayLength = myarray.length;
+
+      this.feedbacks = [];
+      
+      if(newdata2.data != null){
+        var myarray2 = newdata2.data;
+        var arrayLength2 = myarray2.length;
+        
+        for (var i = 0; i < arrayLength; i++) {
+          var isitdone = "Unerledigt";
+          var isitdonebool = null;
+          //hat der user das feedback schon gemacht?
+          for (var j = 0; j < arrayLength2; j++){
+            //customerid --> lokales objekt später DB objekt
+            if(customerid == myarray2[j].CustomerID){
+              if(myarray2[j].FeedbackID == myarray[i].FeedbackID){
+                isitdone = "Erledigt";
+                isitdonebool = false;
+              }
+            }
+          }
+          
+          this.feedbacks.push({
+            FeedbackID: myarray[i].FeedbackID,
+            name: myarray[i].name,
+            done: isitdone,
+            donebool: isitdonebool,
+            CustomerID: customerid
+          });
+        }
+      }
+      //wenn feedbackquestions null ist dann ist keins der Feedbacks gemacht
+      else{
+        for (var i = 0; i < arrayLength; i++) {
+          this.feedbacks.push({
+            FeedbackID: myarray[i].FeedbackID,
+            name: myarray[i].name,
+            done: "Unerledigt",
+            donebool: null,
+            CustomerID: customerid
+          });
+        }
+      }
+    }
+  }
+
+  //wenn ein item in der Liste ausgewählt wurde
+  openFeedbackQuestions($event, item){
+    this.navCtrl.push(FeedbackquestionsPage, {
+      item: item
+    });
+  }
+  
+  deleteAllFeedbackQuestions(item){
+    //Fragen die bei einem Feedback beantwortet worden sind löschen
+    var deleteFeedbackQuestions = new XMLHttpRequest();
+    
+    deleteFeedbackQuestions.open("DELETE", "http://api/answer/"+item.FeedbackID+"/"+item.CustomerID, false);
+    deleteFeedbackQuestions.send(null);
+    
+    var newdatahelp = JSON.parse(deleteFeedbackQuestions.responseText);
+    /**
+     * Überprüfung für Insert einbauen?
+     */
+  }
+
+  deleteDoneFeedback(item){
+    //Feedback das bereits gemacht wurde wieder als nicht gemacht markieren
+    var deleteFeedbackDone = new XMLHttpRequest();
+    
+    deleteFeedbackDone.open("DELETE", "http://api/feedbackdonebyuser/"+item.FeedbackID+"/"+item.CustomerID, false);
+    deleteFeedbackDone.send(null);
+    
+    var newdatahelp = JSON.parse(deleteFeedbackDone.responseText);
+    /**
+     * Überprüfung für Insert einbauen?
+     */
+  }
+
+  openMenu($event, item) {
+    let actionSheet = this.actionsheetCtrl.create({
+      title: 'Was wollen Sie machen?',
+      buttons: [
+        {
+          text: 'Bearbeiten',
+          role: 'edit',
+          icon: 'create',
+          handler: () => {
+            //console.log('Edit clicked');
+            this.navCtrl.push(FeedbackquestionsPage, {
+              item: item
+            });
+          }
+        },
+        {
+          text: 'Löschen',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            //console.log('Delete clicked');
+            
+            this.deleteAllFeedbackQuestions(item);
+            this.deleteDoneFeedback(item);
+
+            //Redirect zu anderen Feedbacks
+            this.navCtrl.setRoot(FeedbackPage);
+          }
+        },
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          icon: 'close',
+          handler: () => {
+            //console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 }

@@ -2,10 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ManageQuestionsPage } from '../pages/manage-questions/manage-questions';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { FeedbackPage } from '../pages/feedback/feedback';
+import { ManageFeedbacksPage } from '../pages/manage-feedbacks/manage-feedbacks';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +26,9 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
-      { title: 'Feedback', component: FeedbackPage}
+      { title: 'Geben Sie uns Feedback', component: FeedbackPage},
+      { title: 'Fragenverwaltung', component: ManageQuestionsPage},
+      { title: 'Feedbackverwaltung', component: ManageFeedbacksPage}
     ];
 
   }
