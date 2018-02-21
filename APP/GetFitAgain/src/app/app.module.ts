@@ -12,6 +12,10 @@ import { ManageQuestionsPage } from '../pages/manage-questions/manage-questions'
 import { QuestionDetailsPage } from '../pages/question-details/question-details';
 import { ManageFeedbacksPage } from '../pages/manage-feedbacks/manage-feedbacks';
 import { FeedbackDetailsPage } from '../pages/feedback-details/feedback-details';
+import { FeedbackstatisticsPage } from '../pages/feedbackstatistics/feedbackstatistics';
+import { StatisticKindofquestionOnePage } from '../pages/statistic-kindofquestion-one/statistic-kindofquestion-one';
+import { StatisticKindofquestionTwoPage } from '../pages/statistic-kindofquestion-two/statistic-kindofquestion-two';
+import { StatisticKindofquestionThreePage } from '../pages/statistic-kindofquestion-three/statistic-kindofquestion-three';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,7 +30,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ManageQuestionsPage,
     QuestionDetailsPage,
     ManageFeedbacksPage,
-    FeedbackDetailsPage
+    FeedbackDetailsPage,
+    FeedbackstatisticsPage,
+    StatisticKindofquestionOnePage,
+    StatisticKindofquestionTwoPage,
+    StatisticKindofquestionThreePage
   ],
   imports: [
     BrowserModule,
@@ -43,7 +51,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ManageQuestionsPage,
     QuestionDetailsPage,
     ManageFeedbacksPage,
-    FeedbackDetailsPage
+    FeedbackDetailsPage,
+    FeedbackstatisticsPage,
+    StatisticKindofquestionOnePage,
+    StatisticKindofquestionTwoPage,
+    StatisticKindofquestionThreePage
   ],
   providers: [
     StatusBar,

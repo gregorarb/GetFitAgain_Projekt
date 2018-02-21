@@ -6,6 +6,14 @@
 </ion-header>
 
   <ion-content padding>
+    <ion-list-header>
+      Hier können Sie die Fragen beantworten!<br>
+      Es gibt 3 verschiedene Fragenarten:<br>
+      - Bewertung 1-5:<br>Sie müssen etwas bewerten, auf einer Skala von 1 bis 5.<br>
+      - Richtig oder Falsch:<br>Sie müssen angeben ob die Frage zutrifft oder nicht.<br>
+      - Textantwort:<br>Beantworten Sie die Frage mit Ihren eigenen Worten.
+    </ion-list-header>
+
     <form (ngSubmit)="logForm()">
       <!-- Fall 1 (1-5) -->
       <ion-item *ngFor="let item of kindofquestionOneDynamic">

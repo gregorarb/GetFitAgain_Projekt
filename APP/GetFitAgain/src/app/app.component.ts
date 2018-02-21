@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { FeedbackPage } from '../pages/feedback/feedback';
 import { ManageFeedbacksPage } from '../pages/manage-feedbacks/manage-feedbacks';
+import { FeedbackstatisticsPage } from '../pages/feedbackstatistics/feedbackstatistics';
 
 @Component({
   templateUrl: 'app.html'
@@ -28,7 +29,8 @@ export class MyApp {
       { title: 'List', component: ListPage },
       { title: 'Geben Sie uns Feedback', component: FeedbackPage},
       { title: 'Fragenverwaltung', component: ManageQuestionsPage},
-      { title: 'Feedbackverwaltung', component: ManageFeedbacksPage}
+      { title: 'Feedbackverwaltung', component: ManageFeedbacksPage},
+      { title: 'Feedbackstatistiken', component: FeedbackstatisticsPage}
     ];
 
   }
